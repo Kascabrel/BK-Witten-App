@@ -1,0 +1,67 @@
+# =========================
+# FLUTTER / DART
+# =========================
+frontend/.dart_tool/
+frontend/.flutter-plugins
+frontend/.flutter-plugins-dependencies
+frontend/.packages
+frontend/pubspec.lock
+frontend/build/
+frontend/coverage/
+frontend/generated_plugin_registrant.dart
+
+# Android (Flutter)
+frontend/android/.gradle/
+frontend/android/app/build/
+frontend/android/local.properties
+
+# iOS (Flutter)
+frontend/ios/Flutter/.last_build_id
+frontend/ios/Pods/
+frontend/ios/.symlinks/
+frontend/ios/Flutter/Flutter.framework
+frontend/ios/Flutter/Flutter.podspec
+frontend/ios/build/
+
+# Web (Flutter)
+frontend/.firebase/
+frontend/.idea/
+
+# =========================
+# NODE.JS (BACKEND)
+# =========================
+backend/node_modules/
+backend/dist/
+backend/.env
+backend/logs/
+backend/debug.log
+backend/npm-debug.log*
+backend/yarn-debug.log*
+backend/yarn-error.log*
+backend/.parcel-cache/
+backend/.next/
+backend/.nuxt/
+backend/.turbo/
+backend/out/
+backend/.vercel/
+
+# =========================
+# IDE / EDITORS
+# =========================
+.vscode/
+.idea/
+*.iml
+
+# =========================
+# SYSTEM FILES
+# =========================
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# =========================
+# OTHER
+# =========================
+*.swp
+*.swo
