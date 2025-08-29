@@ -1,95 +1,120 @@
-# frontend
+# 📱 BK-Witten-App-Projekt (G-3)
 
-# BK-Witten-App-Projekt (G-3)
-
-![Flutter](https://img.shields.io/badge/Flutter-2.10-blue?logo=flutter)  
+![Flutter](https://img.shields.io/badge/Flutter-3.0%2B-blue?logo=flutter)  
 ![Dart](https://img.shields.io/badge/Dart-2.19-blue?logo=dart)
 
-## Beschreibung
+---
 
-Die **BK-Witten-App** ist eine mobile Flutter-Anwendung für Schüler des BK Witten. Die App liefert
-wichtige Informationen für den Schulalltag:
+## 📖 Beschreibung
 
-- **Lageplan** – Schulgebäudeplan
-- **Parkplätze** – verfügbare Parkplätze
-- **Schulaufbau** – Aufbau der Schule
-- **Ansprechpartner** – wichtige Kontakte
-- **Lehrer** – Liste der Lehrkräfte mit Kürzel
-- **Sozialhelfer** – Sozialhelfer der Schule
-- **Schulleitung** – Leitung der Schule
-- **Wichtige Infos über die Schule** – Zusammenfassung der Schulwebseite
-- **Stundenplan** – Stundenplan inkl. Ausfällen
-- **Wichtige Events** – wichtige Termine
-- **Elternsprechtag** – Termine für Elternsprechstunden
-- **Ferienzeit** – Ferienübersicht
-- **Blockzeiten** – Unterrichtszeiten in Blöcken
-- **Feiertage** – gesetzliche Feiertage
+Die **BK-Witten-App** ist eine mobile Flutter-Anwendung für Schüler*innen des BK Witten.  
+Sie liefert wichtige Informationen für den Schulalltag in einer **übersichtlichen und modernen Benutzeroberfläche**:
+
+- 🏫 **Lageplan** – Schulgebäudeplan
+- 🅿️ **Parkplätze** – verfügbare Parkplätze
+- 🏢 **Schulaufbau** – Aufbau der Schule
+- 📇 **Ansprechpartner** – wichtige Kontakte
+- 👩‍🏫 **Lehrer** – Liste der Lehrkräfte mit Kürzeln und Kontakten
+- 🤝 **Sozialhelfer** – Unterstützende Fachkräfte
+- 👨‍💼 **Schulleitung** – Übersicht der Leitung
+- ℹ️ **Allgemeine Infos** – Zusammenfassung der Schulwebseite
+- 📅 **Stundenplan** – inkl. Ausfällen und Änderungen
+- 🎉 **Wichtige Events** – Termine & Veranstaltungen
+- 👪 **Elternsprechtage** – Terminübersicht
+- 🏖 **Ferienzeiten** – Ferienübersicht
+- 🕒 **Blockzeiten** – Unterrichtszeiten in Blöcken
+- 🇩🇪 **Feiertage** – gesetzliche Feiertage
 
 ---
 
-## Hauptfunktionen
+## 🚀 Hauptfunktionen
 
-1. Intuitive Navigation für schnellen Zugriff auf alle Informationen.
-2. Anzeige der Lehrkräfte mit Kürzel und Kontaktinformationen.
-3. Benachrichtigungen bei Stundenplanänderungen oder Ausfällen.
-4. Kalender für wichtige Events und Feiertage.
-5. Details zur Schulstruktur und wichtige Kontakte.
+1. **Intuitive Navigation** für schnellen Zugriff auf alle Infos
+2. **Lehrkräfte-Übersicht** mit Kürzeln & Kontaktmöglichkeiten
+3. **Benachrichtigungen** bei Stundenplanänderungen oder Ausfällen
+4. **Kalenderintegration** für Events, Ferien und Feiertage
+5. **Schulstruktur & Ansprechpartner** kompakt dargestellt
 
 ---
 
-## Voraussetzungen für die Entwicklung
+## 🛠 Voraussetzungen für die Entwicklung
 
-- [Flutter SDK](https://flutter.dev/docs/get-started/install) ≥ 3.0
-- [Dart](https://dart.dev/get-dart) ≥ 2.19
+- [Flutter SDK](https://flutter.dev/docs/get-started/install) **≥ 3.0**
+- [Dart](https://dart.dev/get-dart) **≥ 2.19**
 - IDE: **Android Studio** oder **Visual Studio Code** mit Flutter-Plugin
-- Android- oder iOS-Emulator bzw. physisches Gerät zum Testen
+- Android- oder iOS-Emulator **oder** physisches Gerät
 
 ---
 
-## Installation (lokale Entwicklung)
+## 📦 Installation (lokale Entwicklung)
 
-1. **Repository klonen:**
+1. **Repository klonen**
 
 ```bash
-git clone https://github.com/dein-benutzername/BK-Witten-App-Projekt.git
-cd BK-Witten-App-Projekt
-````
+git clone https://github.com/Kascabrel/BK-Witten-App.git
+cd BK-Witten-App-Projekt/frontend
+```
 
-2. **Abhängigkeiten installiere:**
+2. **Abhängigkeiten installieren**
 
 ```bash
 flutter pub get
 ```
 
-3. **App auf Emulator oder Gerät starten:**
+3. **App starten (Entwicklung)**
 
 ```bash
-    flutter run
+flutter run
 ```
 
-4. **App für Produktion bauen:**
+4. **Produktionsbuild erstellen**
 
-````bash
-flutter build apk   # für Android
-flutter build ios   # für iOS
-````
+```bash
+flutter build apk   # Android
+flutter build ios   # iOS
+```
 
-5. **Projektstruktur**
+---
 
-````agsl
-lib/
+## 📂 Projektstruktur
+
+```agsl
+frontend/lib/
 ├─ main.dart          # Einstiegspunkt der App
-├─ screens/           # Alle Seiten der App (z.B. Stundenplan, Lehrer, Events)
-├─ widgets/           # Wiederverwendbare Komponenten
+├─ screens/           # Screens/Seiten (z.B. Stundenplan, Lehrer, Events)
+├─ widgets/           # Wiederverwendbare UI-Komponenten
 ├─ models/            # Datenmodelle
-├─ services/          # API- oder lokale Datenservices
+├─ services/          # API- / Datenservices
 └─ utils/             # Hilfsfunktionen
+```
 
-````
+---
 
-## code convention
+## 📐 Code-Konventionen
 
-- Dateinamen und Klassen in camelCase.
-- Wiederverwendbare Widgets im Ordner /widgets.
-- const für unveränderliche Widgets verwenden (Performance).
-- Kommentare auf Englisch oder Deutsch, je nach Logik des Codes.
+- **Dateien**: `snake_case.dart` (z. B. `teacher_screen.dart`)
+- **Klassen & Methoden**: `UpperCamelCase`
+- **Variablen & Funktionen**: `lowerCamelCase`
+- **Widgets**: Wiederverwendbare Widgets im Ordner `/widgets`
+- **const verwenden** für unveränderliche Widgets (Performance)
+- **Kommentare**: auf Englisch oder Deutsch, aber einheitlich
+
+---
+
+## 👥 Beitragende
+
+- Team **Gruppe-3**, BK Witten
+- (Steve cabrel Kamguia, ...... Nils, ......Philip, .......Debora )
+
+---
+
+## 📌 ToDos
+
+- [ ] Stundenplan mit API-Anbindung
+- [ ] Push-Benachrichtigungen für Änderungen
+- [ ] Offline-Modus für Grundfunktionen
+- [ ] Hauptsprache auf Deutsch
+
+---
+
+
