@@ -20,9 +20,11 @@ jobs:
 
       - name: Install dependencies
         run: flutter pub get
+        working-directory: frontend
 
       - name: Build APK
         run: flutter build apk --release
+        working-directory: frontend
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
