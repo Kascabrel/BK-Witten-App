@@ -37,22 +37,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       # Download artifact (optionnel)
-      - name: Download built APK
-        uses: actions/download-artifact@v4
+      - name: Deploy APK via SSH
+        uses: appleboy/ssh-action@v0.1.6
         with:
-          name: release-apk
-          path: frontend/build/app/outputs/flutter-apk/
-
-      # Copy APK to server (volume Docker Nginx)
-      - name: Copy APK to server
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-        run: |
-          mkdir -p ~/.ssh
-          echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_ed25519
-          chmod 600 ~/.ssh/id_ed25519
-
-          # Copy the APK to the mount directory of the docker
-          scp -o StrictHostKeyChecking=no -i ~/.ssh/id_ed25519 \
-          frontend/build/app/outputs/flutter-apk/app-release.apk \
-          ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:~/nginx-apk/apk/BK-Witten/app-release.apk
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            mkdir -p ~/nginx-apk/apk/BK-Witten
+            cp frontend/build/app/outputs/flutter-apk/app-release.apk ~/nginx-apk/apk/BK-Witten/app-release.apk
