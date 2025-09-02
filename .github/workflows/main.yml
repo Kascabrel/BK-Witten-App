@@ -6,46 +6,68 @@ on:
       - main
 
 jobs:
+  # ======================
+  # 1. Build job
+  # ======================
   build:
     runs-on: ubuntu-latest
+
     steps:
+      # Checkout the code from the repository
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      # Setup Flutter SDK
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
           flutter-version: '3.24.3'
 
+      # Install Flutter dependencies
       - name: Install dependencies
         run: flutter pub get
         working-directory: frontend
 
+      # Build the release APK
       - name: Build APK
         run: flutter build apk --release
         working-directory: frontend
 
+      # Upload the generated APK as an artifact
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: release-apk
           path: frontend/build/app/outputs/flutter-apk/app-release.apk
 
+  # ======================
+  # 2. Deploy job
+  # ======================
   deploy:
     needs: build
     runs-on: ubuntu-latest
+
     steps:
-      - name: Download artifact
+      # Download the built APK artifact
+      - name: Download built APK
         uses: actions/download-artifact@v4
         with:
           name: release-apk
-          path: ./apk
+          path: ./apk   # save the artifact into ./apk directory
 
-      - name: Upload APK to server
-        uses: appleboy/scp-action@v0.1.7
-        with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USER }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          source: "./apk/app-release.apk"
-          target: "~/nginx-apk/apk/BK-Witten/"
+      # Debug: list files to confirm APK is available
+      - name: List downloaded files
+        run: ls -R ./apk
+
+      # Copy APK to remote server via SCP
+      - name: Copy APK to server
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+        run: |
+          mkdir -p ~/.ssh
+          echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          
+          # Use scp to transfer the APK to the server
+          scp -o StrictHostKeyChecking=no -i ~/.ssh/id_ed25519 ./apk/app-release.apk \
+            ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:~/nginx-apk/apk/BK-Witten/app-release.apk
