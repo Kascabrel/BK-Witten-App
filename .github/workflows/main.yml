@@ -49,5 +49,5 @@ jobs:
           echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_ed25519
           chmod 600 ~/.ssh/id_ed25519
       
-          # Copier l’APK dans le volume monté (host path)
-          scp -o StrictHostKeyChecking=no -i ~/.ssh/id_ed25519 app-release.apk ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:~/nginx-apk/apk/app-release.apk
+          # Copy the APK in the mounted volume (host path)
+          scp -o StrictHostKeyChecking=no -i ~/.ssh/id_ed25519 app-release.apk ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:~/nginx-apk/apk/BK-Witten/app-release.apk
