@@ -25,7 +25,6 @@ jobs:
         run: flutter build apk --release
         working-directory: frontend
 
-      # Upload artifact (optionnel)
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
@@ -36,13 +35,17 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
-      # Download artifact (optionnel)
-      - name: Deploy APK via SSH
-        uses: appleboy/ssh-action@v0.1.6
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: release-apk
+          path: ./apk
+
+      - name: Upload APK to server
+        uses: appleboy/scp-action@v0.1.7
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          script: |
-            mkdir -p ~/nginx-apk/apk/BK-Witten
-            cp frontend/build/app/outputs/flutter-apk/app-release.apk ~/nginx-apk/apk/BK-Witten/app-release.apk
+          source: "./apk/app-release.apk"
+          target: "~/nginx-apk/apk/BK-Witten/"
