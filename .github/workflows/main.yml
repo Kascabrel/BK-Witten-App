@@ -13,32 +13,49 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Checkout the code from the repository
+      # 1️ Checkout the code from the repository
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # Setup Flutter SDK
+      # Debug: list repository contents to see actual folder structure
+      - name: List repository
+        run: ls -R
+
+      # 2️ Setup Flutter SDK
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
           flutter-version: '3.24.3'
 
-      # Install Flutter dependencies
+      # 3️ Verify Flutter environment
+      - name: Flutter doctor
+        run: flutter doctor -v
+
+      # 4️ Clean previous builds
+      - name: Clean Flutter build
+        run: flutter clean
+        working-directory: BK-Witten-App/frontend
+
+      # 5️ Install dependencies
       - name: Install dependencies
         run: flutter pub get
-        working-directory: frontend
+        working-directory: BK-Witten-App/frontend
 
-      # Build the release APK
+      # 6️ Build the release APK from your actual code
       - name: Build APK
         run: flutter build apk --release
-        working-directory: frontend
+        working-directory: BK-Witten-App/frontend
 
-      # Upload the generated APK as an artifact
+      # 7️ Debug: list generated files to ensure APK exists
+      - name: List build outputs
+        run: ls -R BK-Witten-App/frontend/build/app/outputs/flutter-apk
+
+      # 8️ Upload the generated APK as an artifact
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: release-apk
-          path: frontend/build/app/outputs/flutter-apk/app-release.apk
+          path: BK-Witten-App/frontend/build/app/outputs/flutter-apk/app-release.apk
 
   # ======================
   # 2. Deploy job
@@ -48,18 +65,18 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Download the built APK artifact
+      # 1️ Download the APK artifact built in the previous job
       - name: Download built APK
         uses: actions/download-artifact@v4
         with:
           name: release-apk
-          path: ./apk   # save the artifact into ./apk directory
+          path: ./apk  # save the artifact into ./apk directory
 
-      # Debug: list files to confirm APK is available
+      # 2️ Debug: list downloaded files to confirm APK is available
       - name: List downloaded files
         run: ls -R ./apk
 
-      # Copy APK to remote server via SCP
+      # 3️ Copy APK to remote server via SCP
       - name: Copy APK to server
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
@@ -68,6 +85,16 @@ jobs:
           echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_ed25519
           chmod 600 ~/.ssh/id_ed25519
           
-          # Use scp to transfer the APK to the server
+          # Transfer APK to server
           scp -o StrictHostKeyChecking=no -i ~/.ssh/id_ed25519 ./apk/app-release.apk \
             ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:~/nginx-apk/apk/BK-Witten/app-release.apk
+
+      # 4️ Optional: list remote folder to verify APK arrived
+      - name: Verify remote APK
+        uses: appleboy/ssh-action@v0.1.6
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            ls -lh ~/nginx-apk/apk/BK-Witten
