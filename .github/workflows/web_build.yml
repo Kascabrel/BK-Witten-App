@@ -31,7 +31,7 @@ jobs:
 
       # 5. Build web (with base-href for Nginx)
       - name: Build web
-        run: flutter build web --release --base-href /
+        run: flutter build web --release --base-href /BK-Witten/
         working-directory: frontend
 
       # 6. Debug: list generated web files
