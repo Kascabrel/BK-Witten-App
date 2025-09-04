@@ -91,8 +91,31 @@ jobs:
           scp -o StrictHostKeyChecking=no -i ~/.ssh/id_ed25519 ./apk/app-release.apk \
             ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:~/nginx-apk/apk/BK-Witten/app-release.apk
 
-      # 4. Optional: List remote folder to verify APK arrived
-      - name: Verify remote APK
+      # 4. Generate update.json dynamically
+      - name: Generate update.json
+        run: |
+          VERSION=$(grep '^version:' frontend/pubspec.yaml | cut -d ' ' -f2)
+          echo "Building update.json for version $VERSION"
+          
+          cat <<EOF > update.json
+          {
+            "version": "$VERSION",
+            "url": "https://${{ secrets.SSH_HOST }}/apk/BK-Witten/app-release.apk"
+          }
+          EOF
+          
+          cat update.json
+
+      # 5. Upload update.json to server
+      - name: Upload update.json
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+        run: |
+          scp -o StrictHostKeyChecking=no -i ~/.ssh/id_ed25519 update.json \
+            ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:~/nginx-apk/update.json
+
+      # 6. Optional: Verify remote files
+      - name: Verify remote APK & update.json
         uses: appleboy/ssh-action@v0.1.6
         with:
           host: ${{ secrets.SSH_HOST }}
@@ -100,3 +123,4 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             ls -lh ~/nginx-apk/apk/BK-Witten
+            cat ~/nginx-apk/update.json
