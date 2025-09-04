@@ -36,7 +36,7 @@ jobs:
 
       # 6. Debug: list generated web files
       - name: List build outputs
-        run: ls -R frontend/build/web
+        run: ls -R build/web
         working-directory: frontend
 
       # 7. Copy web files to remote server
@@ -52,10 +52,11 @@ jobs:
           ssh -i ~/.ssh/id_ed25519 -o StrictHostKeyChecking=no \
             ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "rm -rf ~/nginx-web/BK-Witten/*"
           
-          # Upload new web build (note: '.' instead of '*')
+          # Upload new web build
           scp -r -o StrictHostKeyChecking=no -i ~/.ssh/id_ed25519 \
-            frontend/build/web/. \
+            build/web/* \
             ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:~/nginx-web/BK-Witten/
+        working-directory: frontend
 
       # 8. Optional: verify remote files
       - name: Verify remote web files
