@@ -22,8 +22,8 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return const Scaffold(
       appBar: CustomAppBar(title: "Berufskolleg-Witten"),
-      body: Center(
-        child: Text(
+      body: const Center(
+        child: const Text(
             "Inhalt im Entwicklungsprozess"), // the content of the home page should be insert here
       ),
     );
