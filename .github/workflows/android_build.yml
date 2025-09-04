@@ -107,21 +107,12 @@ jobs:
           cat update.json
 
       # 5. Upload update.json to server
-      - name: Upload update.json with sudo
+      - name: Upload update.json
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
         run: |
-          mkdir -p ~/.ssh
-          echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_ed25519
-          chmod 600 ~/.ssh/id_ed25519
-
-          # Copy file in a temp directory
           scp -o StrictHostKeyChecking=no -i ~/.ssh/id_ed25519 update.json \
-            ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:~/update.json.tmp
-
-          # move to the final directory
-          ssh -i ~/.ssh/id_ed25519 -o StrictHostKeyChecking=no \
-            ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "sudo mv ~/update.json.tmp ~/nginx-apk/update.json"
+            ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:~/nginx-apk/update.json
 
       # 6. Optional: Verify remote files
       - name: Verify remote APK & update.json
