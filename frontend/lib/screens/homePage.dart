@@ -24,7 +24,7 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: CustomAppBar(title: "Berufskolleg-Witten-G3"),
       body: Center(
         child: Text(
-            "Inhalt im Entwicklungsprozess + ${UpdateChecker.getLastVersion()}"),
+            "Inhalt im Entwicklungsprozess + ${UpdateChecker.getLastVersion}"),
       ),
     );
   }
