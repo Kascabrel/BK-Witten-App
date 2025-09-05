@@ -26,7 +26,7 @@ class UpdateChecker {
     }
   }
 
-  static Future<void> getLastVersion() async {
+  static Future<String> getLastVersion() async {
     try {
       final response = await http.get(
         Uri.parse("https://bk-witten-app.kascali.de/versioning/update.json"),
