@@ -41,9 +41,20 @@ jobs:
           echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_ed25519
           chmod 600 ~/.ssh/id_ed25519
 
-          # Remove old files
+          # Remove only Flutter Web files
           ssh -i ~/.ssh/id_ed25519 -o StrictHostKeyChecking=no \
-            ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "rm -rf ~/nginx-web/*"
+            ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "\
+              rm -rf ~/nginx-web/assets \
+                     ~/nginx-web/icons \
+                     ~/nginx-web/canvaskit \
+                     ~/nginx-web/index.html \
+                     ~/nginx-web/main.dart.js \
+                     ~/nginx-web/flutter.js \
+                     ~/nginx-web/flutter_bootstrap.js \
+                     ~/nginx-web/flutter_service_worker.js \
+                     ~/nginx-web/manifest.json \
+                     ~/nginx-web/version.json \
+                     ~/nginx-web/favicon.png"
 
           # Upload new web build
           scp -r -o StrictHostKeyChecking=no -i ~/.ssh/id_ed25519 \
