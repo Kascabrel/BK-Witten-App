@@ -49,8 +49,8 @@ jobs:
           chmod 600 ~/.ssh/id_ed25519
           
           # Remove old files
-          ssh -i ~/.ssh/id_ed25519 -o StrictHostKeyChecking=no \
-            ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "rm -rf ~/nginx-web/BK-Witten/*"
+          #ssh -i ~/.ssh/id_ed25519 -o StrictHostKeyChecking=no \
+           # ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "rm -rf ~/nginx-web/BK-Witten/*"
           
           # Upload new web build
           scp -r -o StrictHostKeyChecking=no -i ~/.ssh/id_ed25519 \
