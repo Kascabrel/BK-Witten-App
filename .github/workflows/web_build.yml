@@ -10,36 +10,29 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1. Checkout the repository
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # 2. Setup Flutter
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
           flutter-version: '3.24.3'
 
-      # 3. Optional: check Flutter environment
       - name: Flutter doctor
         run: flutter doctor -v
 
-      # 4. Install dependencies
       - name: Install dependencies
         run: flutter pub get
         working-directory: frontend
 
-      # 5. Build web (with base-href for Nginx)
       - name: Build web
-        run: flutter build web --release --base-href /BK-Witten/
+        run: flutter build web --release
         working-directory: frontend
 
-      # 6. Debug: list generated web files
       - name: List build outputs
         run: ls -R build/web
         working-directory: frontend
 
-      # 7. Copy web files to remote server
       - name: Copy web files to server
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
@@ -47,22 +40,21 @@ jobs:
           mkdir -p ~/.ssh
           echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_ed25519
           chmod 600 ~/.ssh/id_ed25519
-          
+
           # Remove old files
-          #ssh -i ~/.ssh/id_ed25519 -o StrictHostKeyChecking=no \
-           # ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "rm -rf ~/nginx-web/BK-Witten/*"
-          
+          ssh -i ~/.ssh/id_ed25519 -o StrictHostKeyChecking=no \
+            ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "rm -rf ~/nginx-web/*"
+
           # Upload new web build
           scp -r -o StrictHostKeyChecking=no -i ~/.ssh/id_ed25519 \
             build/web/* \
-            ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:~/nginx-web/BK-Witten/build/web/
+            ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:~/nginx-web/
 
         working-directory: frontend
 
-      # 8. Optional: verify remote files
       - name: Verify remote web files
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
         run: |
           ssh -i ~/.ssh/id_ed25519 -o StrictHostKeyChecking=no \
-            ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "ls -lh ~/nginx-web/BK-Witten/"
+            ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "ls -lh ~/nginx-web/"
