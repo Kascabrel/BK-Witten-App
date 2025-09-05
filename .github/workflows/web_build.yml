@@ -55,7 +55,8 @@ jobs:
           # Upload new web build
           scp -r -o StrictHostKeyChecking=no -i ~/.ssh/id_ed25519 \
             build/web/* \
-            ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:~/nginx-web/BK-Witten/
+            ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:~/nginx-web/BK-Witten/build/web/
+
         working-directory: frontend
 
       # 8. Optional: verify remote files
