@@ -26,6 +26,21 @@ class UpdateChecker {
     }
   }
 
+  static Future<void> getLastVersion() async {
+    try {
+      final response = await http.get(
+        Uri.parse("https://bk-witten-app.kascali.de/versioning/update.json"),
+      );
+
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
+        return data["version"];
+      }
+    } catch (e) {
+      print("Error when locking for update: $e");
+    }
+  }
+
   void _showUpdateDialog(BuildContext context, String apkUrl, String version) {
     showDialog(
       context: context,
