@@ -18,14 +18,14 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return const Scaffold(
-      appBar: CustomAppBar(title: "Berufskolleg-Witten"),
-      body: const Center(
-        child: const Text(
-            "Inhalt im Entwicklungsprozess"), // the content of the home page should be insert here
-      ),
-    );
-  }
+@override
+Widget build(BuildContext context) {
+  return Scaffold(
+    appBar: CustomAppBar(title: "Berufskolleg-Witten-G3"),
+    body: Center(
+      child: Text("Inhalt im Entwicklungsprozess"),
+    ),
+  );
+}
+
 }
