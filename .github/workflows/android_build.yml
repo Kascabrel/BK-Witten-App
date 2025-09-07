@@ -93,6 +93,7 @@ jobs:
 
       # 4. Generate update.json dynamically
       - name: Generate update.json
+        working-directory: frontend
         run: |
           VERSION=$(grep '^version:' pubspec.yaml | sed 's/version: //')
           echo "Building update.json for version $VERSION"
