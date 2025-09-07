@@ -29,7 +29,7 @@ class UpdateChecker {
   static Future<String?> getLastVersion() async {
     try {
       final response = await http.get(
-        Uri.parse("https://bk-witten-app.kascali.de/versioning/update.json"),
+        Uri.parse("http://37.114.53.166:5202//versioning/update.json"),
       );
 
       if (response.statusCode == 200) {
