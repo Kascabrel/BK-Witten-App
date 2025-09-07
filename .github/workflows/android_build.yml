@@ -66,6 +66,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        
       - name: Download built APK
         uses: actions/download-artifact@v4
         with:
@@ -80,7 +83,7 @@ jobs:
 
       - name: Extract version again
         id: version
-        working-directory: ./frontend
+        working-directory: frontend
         run: |
           VERSION=$(grep '^version:' pubspec.yaml | sed 's/version: //' | cut -d "+" -f1)
           echo "version=$VERSION" >> $GITHUB_OUTPUT
