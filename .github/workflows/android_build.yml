@@ -115,7 +115,7 @@ jobs:
       - name: Fix permissions on server
         run: |
           ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << 'EOF'
-            chmod -R a+r ~/nginx-apk/apk/BK-Witten
+            chmod -R 755 ~/nginx-apk/apk/BK-Witten
             find ~/nginx-apk/apk/BK-Witten -type d -exec chmod 755 {} \;
           EOF
       
