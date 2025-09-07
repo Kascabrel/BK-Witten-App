@@ -96,7 +96,13 @@ jobs:
             \"url\": \"https://${{ secrets.SSH_HOST }}/apk/BK-Witten-v${{ steps.version.outputs.version }}.apk\"
           }" > update.json
           cat update.json
-
+  
+      - name: Setup SSH key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+      
       - name: Upload APK & update.json to server
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
@@ -105,7 +111,7 @@ jobs:
             ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:~/nginx-apk/apk/
           scp -o StrictHostKeyChecking=no -i ~/.ssh/id_ed25519 frontend/update.json \
             ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:~/nginx-apk/update.json
-
+    
       - name: Verify remote APK & update.json
         uses: appleboy/ssh-action@v0.1.6
         with:
