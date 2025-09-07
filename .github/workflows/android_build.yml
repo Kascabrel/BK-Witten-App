@@ -93,7 +93,7 @@ jobs:
         run: |
           echo "{
             \"version\": \"${{ steps.version.outputs.version }}\",
-            \"url\": \"https://${{ secrets.SSH_HOST }}/apk/BK-Witten-v${{ steps.version.outputs.version }}.apk\"
+            \"url\": \"https://${{ secrets.SSH_HOST }}/apk/BK-Witten/witten-apk-release-v${{ steps.version.outputs.version }}.apk\"
           }" > update.json
           cat update.json
   
