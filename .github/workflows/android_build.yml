@@ -111,7 +111,14 @@ jobs:
             ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:~/nginx-apk/apk/BK-Witten/
           scp -o StrictHostKeyChecking=no -i ~/.ssh/id_ed25519 frontend/update.json \
             ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:~/nginx-apk/update.json
-    
+
+      - name: Fix permissions on server
+        run: |
+          ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << 'EOF'
+            chmod -R a+r ~/nginx-apk/apk/BK-Witten
+            find ~/nginx-apk/apk/BK-Witten -type d -exec chmod 755 {} \;
+          EOF
+      
       - name: Verify remote APK & update.json
         uses: appleboy/ssh-action@v0.1.6
         with:
