@@ -93,7 +93,7 @@ jobs:
         run: |
           echo "{
             \"version\": \"${{ steps.version.outputs.version }}\",
-            \"url\": \"http://${{ secrets.SSH_HOST }}:${{ secrets.DOCKER_ECHO}}/apk/BK-Witten/BK-Witten-v${{ steps.version.outputs.version }}.apk\"
+            \"url\": \"https://bk-witten-app.kascali.de/apk/BK-Witten/BK-Witten-v${{ steps.version.outputs.version }}.apk\"
           }" > update.json
           cat update.json
   
@@ -115,7 +115,7 @@ jobs:
       - name: Fix permissions on server
         run: |
           ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << 'EOF'
-            chmod -R a+r ~/nginx-apk/apk/BK-Witten
+            chmod -R 755 ~/nginx-apk/apk/BK-Witten
             find ~/nginx-apk/apk/BK-Witten -type d -exec chmod 755 {} \;
           EOF
       
