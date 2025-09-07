@@ -15,28 +15,28 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     super.initState();
+    _latestVersionFuture = UpdateChecker.getLastVersion();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       UpdateChecker().checkForUpdate(context);
-      _latestVersionFuture = UpdateChecker.getLastVersion();
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(title: "Berufskolleg-Witten-G3"),
+      appBar: const CustomAppBar(title: "Berufskolleg-Witten-G3"),
       body: Center(
         child: FutureBuilder<String?>(
           future: _latestVersionFuture,
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Text("Laden der Version...");
+              return const CircularProgressIndicator(); //
             } else if (snapshot.hasError) {
-              return const Text("Fehler beim Laden");
-            } else if (snapshot.hasData) {
-              return Text("Inhalt im Entwicklungsprozess + ${snapshot.data}");
+              return const Text("Fehler beim Laden der Version.");
+            } else if (snapshot.hasData && snapshot.data!.isNotEmpty) {
+              return Text("Letzte verfügbare Version: ${snapshot.data}");
             } else {
-              return const Text("Unbekannte version");
+              return const Text("Keine Versionsinformation verfügbar.");
             }
           },
         ),

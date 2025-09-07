@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:url_launcher/url_launcher.dart';
 
-class UpdateChecker {
-  final String currentVersion = "1.0.0"; // the current version of the app
+import '../utils/utils.dart';
 
+class UpdateChecker {
   Future<void> checkForUpdate(BuildContext context) async {
+    final localVersion = await getLocalVersion();
+
     try {
       final response = await http.get(
         Uri.parse("https://bk-witten-app.kascali.de/versioning/update.json"),
@@ -17,7 +19,7 @@ class UpdateChecker {
         String latestVersion = data["version"];
         String apkUrl = data["url"];
 
-        if (latestVersion != currentVersion) {
+        if (latestVersion != localVersion) {
           _showUpdateDialog(context, apkUrl, latestVersion);
         }
       }
