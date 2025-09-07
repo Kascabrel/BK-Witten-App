@@ -13,109 +13,93 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1. Checkout the code from the repository
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # 2. Setup Flutter SDK
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
           flutter-version: '3.24.3'
 
-      # 3. Accept Android licenses
       - name: Accept Android licenses
         run: yes | flutter doctor --android-licenses
 
-      # 4. Verify Flutter environment (Crucial for debugging)
       - name: Flutter doctor
         run: flutter doctor -v
 
-      # 5. Clean previous builds to avoid old artifacts
       - name: Clean Flutter build
         run: flutter clean
         working-directory: frontend
 
-      # 6. Install dependencies from pubspec.yaml
       - name: Install dependencies
         run: flutter pub get
         working-directory: frontend
 
-      # 7. Build the release APK from your actual code
       - name: Build APK
         run: flutter build apk --release
         working-directory: frontend
 
-      # 8. Debug: List generated files to ensure APK exists and is correctly named
-      - name: List build outputs
-        run: ls -R build/app/outputs/flutter-apk
+      - name: Extract version from pubspec.yaml
+        id: version
         working-directory: frontend
+        run: |
+          VERSION=$(grep '^version:' pubspec.yaml | sed 's/version: //' | cut -d "+" -f1)
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
 
-      # 9. Upload the generated APK as an artifact for the next job
-      - name: Upload artifact
+      - name: Rename APK with version
+        run: |
+          mkdir -p renamed-apk
+          mv frontend/build/app/outputs/flutter-apk/app-release.apk \
+            renamed-apk/BK-Witten-v${{ steps.version.outputs.version }}.apk
+
+      - name: Upload renamed APK
         uses: actions/upload-artifact@v4
         with:
           name: release-apk
-          path: frontend/build/app/outputs/flutter-apk/app-release.apk
+          path: renamed-apk/BK-Witten-v${{ steps.version.outputs.version }}.apk
 
   # ======================
   # 2. Deploy job
   # ======================
   deploy:
-    # This job depends on a successful build
     needs: build
     runs-on: ubuntu-latest
 
     steps:
-      # 1. Download the APK artifact built in the previous job
       - name: Download built APK
         uses: actions/download-artifact@v4
         with:
           name: release-apk
-          path: ./apk  # Save the artifact into ./apk directory
+          path: ./apk
 
-      # 2. Debug: List downloaded files to confirm APK is available
       - name: List downloaded files
         run: ls -R ./apk
 
-      # 3. Copy APK to remote server via SCP
-      - name: Copy APK to server
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+      - name: Extract version again
+        id: version
+        working-directory: frontend
         run: |
-          mkdir -p ~/.ssh
-          echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_ed25519
-          chmod 600 ~/.ssh/id_ed25519
-          
-          # Transfer APK to the server
-          scp -o StrictHostKeyChecking=no -i ~/.ssh/id_ed25519 ./apk/app-release.apk \
-            ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:~/nginx-apk/apk/BK-Witten/app-release.apk
+          VERSION=$(grep '^version:' pubspec.yaml | sed 's/version: //' | cut -d "+" -f1)
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
 
-      # 4. Generate update.json dynamically
       - name: Generate update.json
         working-directory: frontend
         run: |
-          VERSION=$(grep '^version:' pubspec.yaml | sed 's/version: //')
-          echo "Building update.json for version $VERSION"
-          
-          cat <<EOF > update.json
-          {
-            "version": "$VERSION",
-            "url": "https://${{ secrets.SSH_HOST }}/apk/BK-Witten/app-release.apk"
-          }
-          EOF
-          
+          echo "{
+            \"version\": \"${{ steps.version.outputs.version }}\",
+            \"url\": \"https://${{ secrets.SSH_HOST }}/apk/BK-Witten-v${{ steps.version.outputs.version }}.apk\"
+          }" > update.json
           cat update.json
 
-      # 5. Upload update.json to server
-      - name: Upload update.json
+      - name: Upload APK & update.json to server
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
         run: |
-          scp -o StrictHostKeyChecking=no -i ~/.ssh/id_ed25519 update.json \
+          scp -o StrictHostKeyChecking=no -i ~/.ssh/id_ed25519 ./apk/BK-Witten-v${{ steps.version.outputs.version }}.apk \
+            ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:~/nginx-apk/apk/
+          scp -o StrictHostKeyChecking=no -i ~/.ssh/id_ed25519 frontend/update.json \
             ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:~/nginx-apk/update.json
 
-      # 6. Optional: Verify remote files
       - name: Verify remote APK & update.json
         uses: appleboy/ssh-action@v0.1.6
         with:
@@ -123,5 +107,5 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            ls -lh ~/nginx-apk/apk/BK-Witten
+            ls -lh ~/nginx-apk/apk/BK-Witten-v*
             cat ~/nginx-apk/update.json
