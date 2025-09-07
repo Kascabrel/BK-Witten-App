@@ -75,6 +75,9 @@ jobs:
       - name: List downloaded files
         run: ls -R ./apk
 
+      - name: Debug repo structure
+        run: ls -R
+
       - name: Extract version again
         id: version
         working-directory: frontend
