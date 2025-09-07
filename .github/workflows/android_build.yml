@@ -107,7 +107,7 @@ jobs:
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
         run: |
-          scp -o StrictHostKeyChecking=no -i ~/.ssh/id_ed25519 ./apk/BK-Witten-v${{ steps.version.outputs.version }}.apk \
+          scp -o StrictHostKeyChecking=no -i ~/.ssh/id_ed25519 ./apk/witten-apk-release-v${{ steps.version.outputs.version }}.apk \
             ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:~/nginx-apk/apk/BK-Witten/
           scp -o StrictHostKeyChecking=no -i ~/.ssh/id_ed25519 frontend/update.json \
             ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:~/nginx-apk/update.json
