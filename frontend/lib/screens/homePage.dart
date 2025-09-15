@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/widgets/custum_app_bar.dart';
 import 'package:frontend/services/update_checker.dart';
-import 'package:frontend/widgets/navigation_bar.dart'; // Update service
+import 'package:frontend/widgets/navigation_bar.dart';
+
+import '../widgets/navigation_rail.dart'; // Update service
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
@@ -43,12 +45,59 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: const CustomAppBar(title: "Berufskolleg-Witten-G3"),
-        body: const Center(
-          child: Text("Inhalt im Entwicklungsprozess"),
-        ),
-        bottomNavigationBar: CustomBottomNavigationBar(
-            currentIndex: _selectedIndex, onTap: _onItemTapped));
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        bool isDesktop = constraints.maxWidth > 800; // seuil responsive
+
+        return Scaffold(
+          appBar: const CustomAppBar(title: "Berufskolleg-Witten-G3"),
+          body: Row(
+            children: [
+              if (isDesktop)
+                CustomNavigationRail(
+                  selectedIndex: _selectedIndex,
+                  onDestinationSelected: _onItemTapped,
+                ),
+              const Expanded(
+                child: Center(
+                  child: Text("Inhalt im Entwicklungsprozess"),
+                ),
+              ),
+            ],
+          ),
+          bottomNavigationBar: isDesktop
+              ? null
+              : CustomBottomNavigationBar(
+            currentIndex: _selectedIndex,
+            onTap: _onItemTapped,
+          ),
+          drawer:Drawer(
+            child: ListView(
+              children: [
+                const DrawerHeader(
+                  decoration: BoxDecoration(color: Colors.blue),
+                  child: Text("Menu", style: TextStyle(color: Colors.white)),
+                ),
+                ListTile(
+                  leading: const Icon(Icons.school),
+                  title: const Text("Untis"),
+                  onTap: () {
+                    Navigator.pop(context); // fermer le drawer
+                  },
+                ),
+                ListTile(
+                  leading: const Icon(Icons.map),
+                  title: const Text("Pläne"),
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
   }
+
 }
