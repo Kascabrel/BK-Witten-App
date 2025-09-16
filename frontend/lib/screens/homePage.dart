@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/widgets/custum_app_bar.dart';
+import 'package:frontend/widgets/mobil/custum_app_bar.dart';
 import 'package:frontend/services/update_checker.dart';
-import 'package:frontend/widgets/navigation_bar.dart';
+import 'package:frontend/widgets/mobil/navigation_bar.dart';
 
-import '../widgets/navigation_rail.dart'; // Update service
+import '../widgets/customDrawer.dart';
+import '../widgets/web/navigation_rail.dart'; // Update service
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
@@ -50,7 +51,12 @@ class _MyHomePageState extends State<MyHomePage> {
         bool isDesktop = constraints.maxWidth > 800; // seuil responsive
 
         return Scaffold(
-          appBar: const CustomAppBar(title: "Berufskolleg-Witten-G3"),
+          appBar: CustomAppBar(
+            title: isDesktop
+                ? "Berufskolleg-Witten des Enepe-Ruhr-Kreises"
+                : "Berufskolleg-Witten",
+            centerTitle: isDesktop,
+          ),
           body: Row(
             children: [
               if (isDesktop)
@@ -68,36 +74,12 @@ class _MyHomePageState extends State<MyHomePage> {
           bottomNavigationBar: isDesktop
               ? null
               : CustomBottomNavigationBar(
-            currentIndex: _selectedIndex,
-            onTap: _onItemTapped,
-          ),
-          drawer:Drawer(
-            child: ListView(
-              children: [
-                const DrawerHeader(
-                  decoration: BoxDecoration(color: Colors.blue),
-                  child: Text("Menu", style: TextStyle(color: Colors.white)),
+                  currentIndex: _selectedIndex,
+                  onTap: _onItemTapped,
                 ),
-                ListTile(
-                  leading: const Icon(Icons.school),
-                  title: const Text("Untis"),
-                  onTap: () {
-                    Navigator.pop(context); // fermer le drawer
-                  },
-                ),
-                ListTile(
-                  leading: const Icon(Icons.map),
-                  title: const Text("Pläne"),
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                ),
-              ],
-            ),
-          ),
+          endDrawer: const CustomDrawer(),
         );
       },
     );
   }
-
 }
