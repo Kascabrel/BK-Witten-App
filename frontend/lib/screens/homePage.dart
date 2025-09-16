@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/widgets/mobil/custum_app_bar.dart';
+import 'package:frontend/screens/untis/untisGridView.dart';
+import 'package:frontend/widgets/mobil/custumAppBar.dart';
 import 'package:frontend/services/update_checker.dart';
-import 'package:frontend/widgets/mobil/navigation_bar.dart';
+import 'package:frontend/widgets/mobil/navigationBar.dart';
 
 import 'customDrawer.dart';
-import '../widgets/web/navigation_rail.dart'; // Update service
+import '../widgets/web/navigationRail.dart'; // Update service
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
@@ -16,24 +17,23 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int _selectedIndex = 0; // for the navigation bar
 
+  final List<Widget> listView = [
+    const UntisGridView(),
+    const Center(
+      child: Text("Inhalt im Entwicklungsprozes"),
+    ),
+    const Center(
+      child: Text("Inhalt im Entwicklungsprozes"),
+    ),
+    const Center(
+      child: Text("Inhalt im Entwicklungsprozes"),
+    )
+  ];
+
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
     });
-    switch (index) {
-      case 0:
-        print("the first item was clicked");
-        break;
-      case 1:
-        print("the second item was clicked");
-        break;
-      case 3:
-        print("the third item was clicked");
-        break;
-      case 4:
-        print("the fourth item was clicked");
-        break;
-    }
   }
 
   @override
@@ -53,7 +53,7 @@ class _MyHomePageState extends State<MyHomePage> {
         return Scaffold(
           appBar: CustomAppBar(
             title: isDesktop
-                ? "Berufskolleg-Witten des Enepe-Ruhr-Kreises"
+                ? "Berufskolleg-Witten des Ennepe-Ruhr-Kreises"
                 : "Berufskolleg-Witten",
             centerTitle: isDesktop,
           ),
@@ -64,10 +64,8 @@ class _MyHomePageState extends State<MyHomePage> {
                   selectedIndex: _selectedIndex,
                   onDestinationSelected: _onItemTapped,
                 ),
-              const Expanded(
-                child: Center(
-                  child: Text("Inhalt im Entwicklungsprozess"),
-                ),
+              Expanded(
+                child: listView[_selectedIndex],
               ),
             ],
           ),
