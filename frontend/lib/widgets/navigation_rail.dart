@@ -12,28 +12,25 @@ class CustomNavigationRail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final List<NavigationRailDestination> destinationList = [
+      const NavigationRailDestination(
+          icon: Icon(Icons.school), label: Text("Untis")),
+      const NavigationRailDestination(
+        icon: Icon(Icons.map),
+        label: Text("Pläne"),
+      ),
+      const NavigationRailDestination(
+        icon: Icon(Icons.event),
+        label: Text("Info"),
+      ),
+      const NavigationRailDestination(
+          icon: Icon(Icons.group), label: Text("Personen")),
+    ];
     return NavigationRail(
       selectedIndex: selectedIndex,
       onDestinationSelected: onDestinationSelected,
       labelType: NavigationRailLabelType.all,
-      destinations: const [
-        NavigationRailDestination(
-          icon: Icon(Icons.school),
-          label: Text("Untis"),
-        ),
-        NavigationRailDestination(
-          icon: Icon(Icons.map),
-          label: Text("Pläne"),
-        ),
-        NavigationRailDestination(
-          icon: Icon(Icons.event),
-          label: Text("Info"),
-        ),
-        NavigationRailDestination(
-          icon: Icon(Icons.group),
-          label: Text("Personen"),
-        ),
-      ],
+      destinations: destinationList,
       backgroundColor: Colors.blue,
     );
   }
