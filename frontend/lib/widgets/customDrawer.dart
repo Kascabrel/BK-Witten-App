@@ -1,58 +1,46 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../providers/theme_provider.dart';
 
-class CustomDrawer extends StatefulWidget {
+class CustomDrawer extends StatelessWidget {
   const CustomDrawer({super.key});
 
   @override
-  State<CustomDrawer> createState() => _CustomDrawerState();
-}
-
-class _CustomDrawerState extends State<CustomDrawer> {
-  bool _darkMode = false; // 👈 état local
-
-  @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
+
     return Drawer(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           const UserAccountsDrawerHeader(
-            accountName: Text("Nax Mustermann"),
+            accountName: Text("Max Mustermann"),
             accountEmail: Text("max@example.com"),
             currentAccountPicture: CircleAvatar(
               backgroundColor: Colors.white,
               child: Icon(Icons.person, size: 40, color: Colors.blue),
             ),
           ),
-          // --- Navigation ---
           ListTile(
             leading: const Icon(Icons.settings),
             title: const Text("Einstellungen"),
-            onTap: () {
-              Navigator.pop(context);
-            },
+            onTap: () => Navigator.pop(context),
           ),
           ListTile(
             leading: const Icon(Icons.logout),
             title: const Text("Abmelden"),
-            onTap: () {
-              Navigator.pop(context);
-            },
+            onTap: () => Navigator.pop(context),
           ),
           const Divider(),
-          // --- Switch dark / light mode ---
           SwitchListTile(
             title: const Text("Dunkelmodus"),
-            value: _darkMode,
+            value: themeProvider.isDarkMode,
             secondary: Icon(
-              _darkMode ? Icons.dark_mode : Icons.light_mode,
-              color: _darkMode ? Colors.amber : Colors.blue,
+              themeProvider.isDarkMode ? Icons.dark_mode : Icons.light_mode,
+              color: themeProvider.isDarkMode ? Colors.amber : Colors.blue,
             ),
             onChanged: (value) {
-              setState(() {
-                _darkMode = value;
-              });
-              // here modify the themeprovider
+              themeProvider.toggleTheme(value);
             },
           ),
         ],
