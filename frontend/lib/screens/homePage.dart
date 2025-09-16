@@ -3,7 +3,7 @@ import 'package:frontend/widgets/mobil/custum_app_bar.dart';
 import 'package:frontend/services/update_checker.dart';
 import 'package:frontend/widgets/mobil/navigation_bar.dart';
 
-import '../widgets/customDrawer.dart';
+import 'customDrawer.dart';
 import '../widgets/web/navigation_rail.dart'; // Update service
 
 class MyHomePage extends StatefulWidget {

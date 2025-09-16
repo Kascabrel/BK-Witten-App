@@ -3,14 +3,14 @@ import 'package:flutter/material.dart';
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
   final Widget? leading;
-  final Color backgroundColor;
+  final Color? backgroundColor;
   final bool centerTitle;
 
   const CustomAppBar(
       {super.key,
       required this.title,
       this.leading,
-      this.backgroundColor = Colors.blue,
+      this.backgroundColor,
       this.centerTitle = false});
 
   @override
@@ -18,20 +18,24 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
       title: Text(
         title,
-        style: const TextStyle(
-          color: Colors.white,
+        style: TextStyle(
+          color: Theme.of(context).appBarTheme.foregroundColor, // dynamic
           fontWeight: FontWeight.bold,
         ),
       ),
-      backgroundColor: backgroundColor,
+      backgroundColor:
+          backgroundColor ?? Theme.of(context).appBarTheme.backgroundColor,
+      //  dynamic
       elevation: 8,
       leading: leading,
       actions: [
         IconButton(
-          icon: const Icon(Icons.person_2_rounded, color: Colors.white),
+          icon: Icon(
+            Icons.person_2_rounded,
+            color: Theme.of(context).appBarTheme.foregroundColor, //  dynamic
+          ),
           onPressed: () {
-            // ouvre le Drawer de droite
-            Scaffold.of(context).openEndDrawer();
+            Scaffold.of(context).openEndDrawer(); // open the drawer
           },
         ),
       ],

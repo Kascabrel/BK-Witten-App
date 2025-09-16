@@ -31,15 +31,36 @@ class CustomNavigationRail extends StatelessWidget {
       onDestinationSelected: onDestinationSelected,
       labelType: NavigationRailLabelType.all,
       destinations: destinationList,
-      backgroundColor: Colors.blue,
-      selectedIconTheme: const IconThemeData(color: Colors.white, size: 28),
-      unselectedIconTheme: const IconThemeData(color: Colors.white60, size: 24),
-      selectedLabelTextStyle: const TextStyle(
-        color: Colors.white,
+      backgroundColor: Theme
+          .of(context)
+          .bottomNavigationBarTheme
+          .backgroundColor,
+      selectedIconTheme: IconThemeData(
+        color: Theme
+            .of(context)
+            .bottomNavigationBarTheme
+            .selectedItemColor,
+        size: 28,
+      ),
+      unselectedIconTheme: IconThemeData(
+        color: Theme
+            .of(context)
+            .bottomNavigationBarTheme
+            .unselectedItemColor,
+        size: 24,
+      ),
+      selectedLabelTextStyle: TextStyle(
+        color: Theme
+            .of(context)
+            .bottomNavigationBarTheme
+            .selectedItemColor,
         fontWeight: FontWeight.bold,
       ),
-      unselectedLabelTextStyle: const TextStyle(
-        color: Colors.white60,
+      unselectedLabelTextStyle: TextStyle(
+        color: Theme
+            .of(context)
+            .bottomNavigationBarTheme
+            .unselectedItemColor,
       ),
     );
   }

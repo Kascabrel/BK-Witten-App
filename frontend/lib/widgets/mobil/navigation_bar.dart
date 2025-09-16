@@ -16,14 +16,16 @@ class CustomBottomNavigationBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context); //
+
     return BottomNavigationBar(
       items: navigationItem,
       currentIndex: currentIndex,
       onTap: onTap,
       type: BottomNavigationBarType.fixed,
-      selectedItemColor: Colors.white,
-      unselectedItemColor: Colors.white60,
-      backgroundColor: Colors.blue,
+      selectedItemColor: theme.bottomNavigationBarTheme.selectedItemColor,
+      unselectedItemColor: theme.bottomNavigationBarTheme.unselectedItemColor,
+      backgroundColor: theme.bottomNavigationBarTheme.backgroundColor,
       showUnselectedLabels: true,
     );
   }
