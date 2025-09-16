@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/screens/untis/untisGridView.dart';
+import 'package:frontend/screens/untis/homePageContent.dart';
 import 'package:frontend/widgets/mobil/custumAppBar.dart';
 import 'package:frontend/services/update_checker.dart';
 import 'package:frontend/widgets/mobil/navigationBar.dart';
@@ -18,7 +18,7 @@ class _MyHomePageState extends State<MyHomePage> {
   int _selectedIndex = 0; // for the navigation bar
 
   final List<Widget> listView = [
-    const UntisGridView(),
+    const HomepageContent(),
     const Center(
       child: Text("Inhalt im Entwicklungsprozes"),
     ),
