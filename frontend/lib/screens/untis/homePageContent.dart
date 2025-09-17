@@ -8,74 +8,90 @@ class HomepageContent extends StatelessWidget {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        // Responsive: largeur totale
         double maxWidth = constraints.maxWidth;
+        double maxHeight = constraints.maxHeight;
 
-        // Taille de l’image (50% de l’écran en hauteur par ex.)
-        double imageHeight = constraints.maxHeight * 0.5;
-
-        // Taille des boutons : plus grands sur desktop
+        // Taille des boutons (responsive desktop/mobile)
         double iconSize = maxWidth > 800 ? 80 : 60;
 
-        return Column(
-          children: [
-            // Partie image
-            Container(
-              height: imageHeight,
-              width: double.infinity,
-              color: Colors.blue.shade700,
-              alignment: Alignment.center,
-              child: const Text(
-                "Ein Bild",
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 28,
-                  fontWeight: FontWeight.bold,
+        return SizedBox(
+          height: maxHeight,
+          width: double.infinity,
+          child: Stack(
+            children: [
+              // Image en fond
+              Positioned.fill(
+                child: Image.asset(
+                  "assets/images/homeImg.png",
+                  fit: BoxFit.cover,
                 ),
               ),
-            ),
 
-            // Partie boutons
-            Expanded(
-              child: Container(
-                width: double.infinity,
-                color: Colors.grey.shade900, // fond sombre
-                child: Center(
-                  child: Wrap(
-                    spacing: 40,
-                    runSpacing: 20,
-                    alignment: WrapAlignment.center,
-                    children: [
-                      IconLabelButton(
-                        icon: Icons.calendar_today,
-                        label: 'Studentplan',
-                        onTap: () => Navigator.pushNamed(context, '/studentplan'),
-                        size: iconSize,
-                      ),
-                      IconLabelButton(
-                        icon: Icons.message,
-                        label: 'Mitteilungen',
-                        onTap: () => Navigator.pushNamed(context, '/mitteilungen'),
-                        size: iconSize,
-                      ),
-                      IconLabelButton(
-                        icon: Icons.event,
-                        label: 'Termine',
-                        onTap: () => Navigator.pushNamed(context, '/termine'),
-                        size: iconSize,
-                      ),
-                      IconLabelButton(
-                        icon: Icons.block,
-                        label: 'Abwesenheit',
-                        onTap: () => Navigator.pushNamed(context, '/abwesenheit'),
-                        size: iconSize,
-                      ),
-                    ],
+              // Demi-haut : titre centré
+              Align(
+                alignment: Alignment.topCenter,
+                child: Container(
+                  height: maxHeight * 0.5,
+                  alignment: Alignment.center,
+                  color: Colors.black.withOpacity(0.3), // léger overlay
+                  child: Text(
+                    "Berufskolleg Witten",
+                    style: TextStyle(
+                      fontSize: maxWidth > 800 ? 48 : 28,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                      letterSpacing: 1.5,
+                      shadows: [
+                        Shadow(
+                          blurRadius: 8,
+                          color: Colors.black.withOpacity(0.7),
+                          offset: const Offset(2, 2),
+                        )
+                      ],
+                    ),
+                    textAlign: TextAlign.center,
                   ),
                 ),
               ),
-            ),
-          ],
+
+              // Demi-bas : boutons
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: Container(
+                  height: maxHeight * 0.5,
+                  width: double.infinity,
+                  color: Colors.black.withOpacity(0.7),
+                  child: Center(
+                    child: Wrap(
+                      spacing: 40,
+                      runSpacing: 20,
+                      alignment: WrapAlignment.center,
+                      children: [
+                        IconLabelButton(
+                          icon: Icons.calendar_today,
+                          label: 'Studentplan',
+                          onTap: () => Navigator.pushNamed(context, '/studentplan'),
+                          size: iconSize,
+                        ),
+                        IconLabelButton(
+                          icon: Icons.message,
+                          label: 'Mitteilungen',
+                          onTap: () => Navigator.pushNamed(context, '/mitteilungen'),
+                          size: iconSize,
+                        ),
+                        IconLabelButton(
+                          icon: Icons.event,
+                          label: 'Termine',
+                          onTap: () => Navigator.pushNamed(context, '/termine'),
+                          size: iconSize,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
         );
       },
     );
