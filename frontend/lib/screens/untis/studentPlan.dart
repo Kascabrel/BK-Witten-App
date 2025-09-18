@@ -21,7 +21,7 @@ class _StudentplanPageState extends State<StudentplanPage> {
 
   Future<void> loadData() async {
     final String response =
-    await rootBundle.loadString('assets/studentPlan.json');
+        await rootBundle.loadString('assets/studentPlan.json');
     final data = json.decode(response);
 
     setState(() {
@@ -41,7 +41,8 @@ class _StudentplanPageState extends State<StudentplanPage> {
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
     // ✅ Définition des couleurs dynamiques
-    final headerColor = isDark ? Colors.blueGrey.shade700 : Colors.blue.shade100;
+    final headerColor =
+        isDark ? Colors.blueGrey.shade700 : Colors.blue.shade100;
     final cardColor = isDark ? Colors.grey.shade800 : Colors.blue.shade50;
     final textColor = isDark ? Colors.white : Colors.black87;
 

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/screens/plan/shoolbuildingPlan.dart';
 import 'package:frontend/screens/untis/studentPlan.dart';
 import 'package:provider/provider.dart';
 import 'providers/theme_provider.dart';
@@ -88,6 +89,8 @@ class MyApp extends StatelessWidget {
         home: const MyHomePage(),
         routes: {
           '/studentPlan': (context) => const StudentplanPage(),
+          '/schoolBuildingPlan': (context) => const SchoolBuildingPlanPage(),
+          //'/parkingPlan': (context) => const ParkingPlanPage(),
         });
   }
 }
