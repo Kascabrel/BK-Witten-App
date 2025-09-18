@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/screens/planPage.dart';
 import 'package:frontend/screens/untis/homePageContent.dart';
 import 'package:frontend/widgets/mobil/custumAppBar.dart';
 import 'package:frontend/services/update_checker.dart';
@@ -19,14 +20,12 @@ class _MyHomePageState extends State<MyHomePage> {
 
   final List<Widget> listView = [
     const HomepageContent(),
+    const PlanePage(),
     const Center(
-      child: Text("Inhalt im Entwicklungsprozes"),
+      child: Text("Inhalt im Entwicklungsprozes(informationen)"),
     ),
     const Center(
-      child: Text("Inhalt im Entwicklungsprozes"),
-    ),
-    const Center(
-      child: Text("Inhalt im Entwicklungsprozes"),
+      child: Text("Inhalt im Entwicklungsprozes(personen)"),
     )
   ];
 
