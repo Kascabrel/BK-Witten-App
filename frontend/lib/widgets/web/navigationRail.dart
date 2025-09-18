@@ -27,6 +27,7 @@ class CustomNavigationRail extends StatelessWidget {
           icon: Icon(Icons.group), label: Text("Personen")),
     ];
     return NavigationRail(
+      minWidth: 120,
       selectedIndex: selectedIndex,
       onDestinationSelected: onDestinationSelected,
       labelType: NavigationRailLabelType.all,

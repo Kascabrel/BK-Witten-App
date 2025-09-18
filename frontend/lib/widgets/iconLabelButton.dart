@@ -16,7 +16,15 @@ class IconLabelButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Color primaryColor = Theme.of(context).colorScheme.primary;
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+
+    // ✅ Couleurs dynamiques
+    final Color backgroundColor =
+    isDark ? theme.colorScheme.primaryContainer : theme.colorScheme.primary;
+    final Color iconColor =
+    isDark ? theme.colorScheme.onPrimaryContainer : theme.colorScheme.onPrimary;
+    final Color textColor = theme.textTheme.bodyMedium?.color ?? Colors.black;
 
     return GestureDetector(
       onTap: onTap,
@@ -28,16 +36,20 @@ class IconLabelButton extends StatelessWidget {
             height: size,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              color: primaryColor,
+              color: backgroundColor,
             ),
-            child: Icon(icon, color: Colors.white, size: size * 0.5),
+            child: Icon(
+              icon,
+              color: iconColor,
+              size: size * 0.5,
+            ),
           ),
           const SizedBox(height: 8),
           Text(
             label,
             style: TextStyle(
               fontSize: size * 0.2, // texte proportionnel
-              color: Theme.of(context).textTheme.bodyMedium?.color,
+              color: textColor,
             ),
           ),
         ],
