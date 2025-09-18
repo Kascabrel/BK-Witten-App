@@ -70,7 +70,7 @@ class HomepageContent extends StatelessWidget {
                         IconLabelButton(
                           icon: Icons.calendar_today,
                           label: 'Studentplan',
-                          onTap: () => Navigator.pushNamed(context, '/studentplan'),
+                          onTap: () => Navigator.pushNamed(context, '/studentPlan'),
                           size: iconSize,
                         ),
                         IconLabelButton(
