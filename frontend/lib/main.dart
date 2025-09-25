@@ -31,16 +31,14 @@ class MyApp extends StatelessWidget {
           scaffoldBackgroundColor: Colors.white,
           colorScheme: ColorScheme.light(
             primary: Colors.blue.shade900,
-            // ✅ bleu foncé corporate
             secondary: Colors.blueAccent,
-            // ✅ accent clair pour feedback
             surface: Colors.white,
             onPrimary: Colors.white,
             onSecondary: Colors.black,
             onSurface: Colors.black87,
           ),
           appBarTheme: AppBarTheme(
-            backgroundColor: Colors.blue.shade900, // ✅ bleu foncé
+            backgroundColor: Colors.blue.shade900, //
             foregroundColor: Colors.white,
             elevation: 0,
             titleTextStyle: const TextStyle(
@@ -51,11 +49,8 @@ class MyApp extends StatelessWidget {
           ),
           bottomNavigationBarTheme: BottomNavigationBarThemeData(
             backgroundColor: Colors.white,
-            // ✅ fond blanc
             selectedItemColor: Colors.blue.shade900,
-            // ✅ sélection bleu foncé
             unselectedItemColor: Colors.black87,
-            // ✅ icônes non sélectionnées en noir/gris
             type: BottomNavigationBarType.fixed,
             elevation: 4,
           ),
@@ -74,16 +69,42 @@ class MyApp extends StatelessWidget {
         ),
         darkTheme: ThemeData(
           brightness: Brightness.dark,
-          primaryColor: Colors.blue.shade400,
           scaffoldBackgroundColor: Colors.grey.shade900,
+          colorScheme: ColorScheme.dark(
+            primary: Colors.blue.shade400,
+            secondary: Colors.amber,
+            surface: Colors.grey.shade800,
+            onPrimary: Colors.white,
+            onSecondary: Colors.black,
+            onSurface: Colors.white70, //
+          ),
           appBarTheme: AppBarTheme(
             backgroundColor: Colors.blueGrey.shade900,
             foregroundColor: Colors.white,
+            titleTextStyle: const TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.w600,
+              color: Colors.white,
+            ),
           ),
           bottomNavigationBarTheme: BottomNavigationBarThemeData(
             backgroundColor: Colors.blueGrey.shade900,
             selectedItemColor: Colors.amber,
             unselectedItemColor: Colors.white60,
+            type: BottomNavigationBarType.fixed,
+            elevation: 4,
+          ),
+          textTheme: const TextTheme(
+            bodyMedium: TextStyle(color: Colors.white70),
+            bodyLarge:
+                TextStyle(color: Colors.white, fontWeight: FontWeight.w600),
+          ),
+          cardTheme: CardTheme(
+            color: Colors.grey.shade800,
+            elevation: 2,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8),
+            ),
           ),
         ),
         home: const MyHomePage(),

@@ -11,7 +11,7 @@ class IconLabelButton extends StatelessWidget {
     required this.icon,
     required this.label,
     required this.onTap,
-    this.size = 60, // défaut pour mobile
+    this.size = 60, //
   });
 
   @override
@@ -19,12 +19,16 @@ class IconLabelButton extends StatelessWidget {
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
 
-    // ✅ Couleurs dynamiques
     final Color backgroundColor =
-    isDark ? theme.colorScheme.primaryContainer : theme.colorScheme.primary;
-    final Color iconColor =
-    isDark ? theme.colorScheme.onPrimaryContainer : theme.colorScheme.onPrimary;
-    final Color textColor = theme.textTheme.bodyMedium?.color ?? Colors.black;
+        isDark ? theme.colorScheme.primaryContainer : theme.colorScheme.primary;
+    final Color iconColor = isDark
+        ? theme.colorScheme.onPrimaryContainer
+        : theme.colorScheme.onPrimary;
+    final Color textColor = isDark
+        ? theme.colorScheme.onPrimaryContainer
+        : theme.colorScheme.onPrimary; 
+    //final Color textColor = theme.textTheme.bodyMedium?.color ?? Colors.black;
+
 
     return GestureDetector(
       onTap: onTap,
