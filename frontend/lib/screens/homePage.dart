@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/widgets/custum_app_bar.dart';
-import 'package:frontend/services/update_checker.dart'; // Update service
+import 'package:frontend/screens/planPage.dart';
+import 'package:frontend/screens/untis/homePageContent.dart';
+import 'package:frontend/widgets/mobil/custumAppBar.dart';
+import 'package:frontend/services/update_checker.dart';
+import 'package:frontend/widgets/mobil/navigationBar.dart';
+
+import 'customDrawer.dart';
+import '../widgets/web/navigationRail.dart'; // Update service
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
@@ -10,12 +16,28 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  late Future<String?> _latestVersionFuture;
+  int _selectedIndex = 0; // for the navigation bar
+
+  final List<Widget> listView = [
+    const HomepageContent(),
+    const PlanePage(),
+    const Center(
+      child: Text("Inhalt im Entwicklungsprozes(informationen)"),
+    ),
+    const Center(
+      child: Text("Inhalt im Entwicklungsprozes(personen)"),
+    )
+  ];
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
 
   @override
   void initState() {
     super.initState();
-    _latestVersionFuture = UpdateChecker.getLastVersion();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       UpdateChecker().checkForUpdate(context);
     });
@@ -23,24 +45,38 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: const CustomAppBar(title: "Berufskolleg-Witten-G3"),
-      body: Center(
-        child: FutureBuilder<String?>(
-          future: _latestVersionFuture,
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const CircularProgressIndicator(); //
-            } else if (snapshot.hasError) {
-              return const Text("Fehler beim Laden der Version.");
-            } else if (snapshot.hasData && snapshot.data!.isNotEmpty) {
-              return Text("Letzte verfügbare Version: ${snapshot.data}");
-            } else {
-              return const Text("Keine Versionsinformation verfügbar.");
-            }
-          },
-        ),
-      ),
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        bool isDesktop = constraints.maxWidth > 800; // seuil responsive
+
+        return Scaffold(
+          appBar: CustomAppBar(
+            title: isDesktop
+                ? "Berufskolleg-Witten des Ennepe-Ruhr-Kreises"
+                : "Berufskolleg-Witten",
+            centerTitle: isDesktop,
+          ),
+          body: Row(
+            children: [
+              if (isDesktop)
+                CustomNavigationRail(
+                  selectedIndex: _selectedIndex,
+                  onDestinationSelected: _onItemTapped,
+                ),
+              Expanded(
+                child: listView[_selectedIndex],
+              ),
+            ],
+          ),
+          bottomNavigationBar: isDesktop
+              ? null
+              : CustomBottomNavigationBar(
+                  currentIndex: _selectedIndex,
+                  onTap: _onItemTapped,
+                ),
+          endDrawer: const CustomDrawer(),
+        );
+      },
     );
   }
 }

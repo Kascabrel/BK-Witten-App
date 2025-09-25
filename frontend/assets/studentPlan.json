@@ -1,0 +1,85 @@
+{
+  "days": ["Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag"],
+  "lessons": [
+    {
+      "day": "Montag",
+      "subject": "Mathematik",
+      "teacher": "Müller",
+      "room": "101",
+      "start": "08:00",
+      "end": "09:30"
+    },
+    {
+      "day": "Montag",
+      "subject": "Physik",
+      "teacher": "Schmidt",
+      "room": "202",
+      "start": "10:00",
+      "end": "11:30"
+    },
+    {
+      "day": "Montag",
+      "subject": "Englisch",
+      "teacher": "Brown",
+      "room": "103",
+      "start": "12:00",
+      "end": "13:30"
+    },
+    {
+      "day": "Dienstag",
+      "subject": "Deutsch",
+      "teacher": "Weber",
+      "room": "305",
+      "start": "08:00",
+      "end": "09:30"
+    },
+    {
+      "day": "Dienstag",
+      "subject": "Sport",
+      "teacher": "Herr Lange",
+      "room": "Turnhalle",
+      "start": "10:00",
+      "end": "11:30"
+    },
+    {
+      "day": "Mittwoch",
+      "subject": "Informatik",
+      "teacher": "Frau Klein",
+      "room": "404",
+      "start": "11:00",
+      "end": "12:30"
+    },
+    {
+      "day": "Donnerstag",
+      "subject": "Biologie",
+      "teacher": "Dr. Sommer",
+      "room": "206",
+      "start": "08:00",
+      "end": "09:30"
+    },
+    {
+      "day": "Donnerstag",
+      "subject": "Geschichte",
+      "teacher": "Herr König",
+      "room": "207",
+      "start": "10:00",
+      "end": "11:30"
+    },
+    {
+      "day": "Freitag",
+      "subject": "Chemie",
+      "teacher": "Frau Becker",
+      "room": "301",
+      "start": "08:00",
+      "end": "09:30"
+    },
+    {
+      "day": "Freitag",
+      "subject": "Ethik",
+      "teacher": "Herr Schwarz",
+      "room": "302",
+      "start": "10:00",
+      "end": "11:30"
+    }
+  ]
+}
