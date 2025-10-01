@@ -26,7 +26,7 @@ class IconLabelButton extends StatelessWidget {
         : theme.colorScheme.onPrimary;
     final Color textColor = isDark
         ? theme.colorScheme.onPrimaryContainer
-        : theme.colorScheme.onPrimary; 
+        : theme.colorScheme.onPrimary;
     //final Color textColor = theme.textTheme.bodyMedium?.color ?? Colors.black;
 
 
