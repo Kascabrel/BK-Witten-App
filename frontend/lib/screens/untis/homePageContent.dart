@@ -22,7 +22,7 @@ class HomepageContent extends StatelessWidget {
               // Image en fond
               Positioned.fill(
                 child: Image.asset(
-                  "assets/images/homeImg.png",
+                  maxWidth > 800 ? "assets/images/home.jpg":"assets/images/homeImg.png" ,
                   fit: BoxFit.cover,
                 ),
               ),
