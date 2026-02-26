@@ -6,8 +6,14 @@ import 'package:frontend/services/update_checker.dart';
 import 'package:frontend/widgets/mobil/navigationBar.dart';
 
 import 'customDrawer.dart';
-import '../widgets/web/navigationRail.dart'; // Update service
+import '../widgets/web/navigationRail.dart';
 
+/// Main application home page.
+///
+/// Handles:
+/// - Responsive layout (mobile vs desktop)
+/// - Navigation state management
+/// - Update check on startup
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
 
@@ -16,8 +22,11 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _selectedIndex = 0; // for the navigation bar
 
+  /// Currently selected navigation index.
+  int _selectedIndex = 0;
+
+  /// List of pages displayed depending on the selected navigation item.
   final List<Widget> listView = [
     const HomepageContent(),
     const PlanePage(),
@@ -29,6 +38,8 @@ class _MyHomePageState extends State<MyHomePage> {
     )
   ];
 
+  /// Updates the selected navigation index
+  /// and rebuilds the UI.
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
@@ -38,6 +49,9 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     super.initState();
+
+    /// Triggers an update check after the first frame is rendered.
+    /// This prevents calling dialogs before the context is ready.
     WidgetsBinding.instance.addPostFrameCallback((_) {
       UpdateChecker().checkForUpdate(context);
     });
@@ -45,9 +59,13 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+
+    /// Responsive breakpoint:
+    /// > 800px → Desktop layout
+    /// ≤ 800px → Mobile layout
     return LayoutBuilder(
       builder: (context, constraints) {
-        bool isDesktop = constraints.maxWidth > 800; // seuil responsive
+        bool isDesktop = constraints.maxWidth > 800;
 
         return Scaffold(
           appBar: CustomAppBar(
@@ -56,6 +74,12 @@ class _MyHomePageState extends State<MyHomePage> {
                 : "Berufskolleg-Witten",
             centerTitle: isDesktop,
           ),
+
+          /// Desktop layout:
+          /// NavigationRail on the left + content area.
+          ///
+          /// Mobile layout:
+          /// Only content (navigation handled by BottomNavigationBar).
           body: Row(
             children: [
               if (isDesktop)
@@ -68,12 +92,16 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
             ],
           ),
+
+          /// Bottom navigation is only shown on mobile devices.
           bottomNavigationBar: isDesktop
               ? null
               : CustomBottomNavigationBar(
-                  currentIndex: _selectedIndex,
-                  onTap: _onItemTapped,
-                ),
+            currentIndex: _selectedIndex,
+            onTap: _onItemTapped,
+          ),
+
+          /// Drawer accessible from the right side.
           endDrawer: const CustomDrawer(),
         );
       },

@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 
+/// Page displaying different school-related plans.
+///
+/// The layout automatically adapts between mobile (vertical)
+/// and wide screens (horizontal) using [LayoutBuilder].
 class PlanePage extends StatelessWidget {
   const PlanePage({super.key});
 
@@ -7,10 +11,19 @@ class PlanePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text("Pläne")),
+
+      /// Uses responsive layout depending on available width.
+      /// If width > 600px → horizontal layout (web/tablet).
+      /// Otherwise → vertical layout (mobile).
       body: LayoutBuilder(
         builder: (context, constraints) {
-          bool isWide = constraints.maxWidth > 600; // 📐 détection mobile vs web
+          bool isWide = constraints.maxWidth > 600;
 
+          /// Reusable card builder for navigation items.
+          ///
+          /// Automatically adapts its width depending on screen size.
+          /// On wide screens → cards expand equally.
+          /// On mobile → fixed width and centered.
           Widget buildCard({
             required IconData icon,
             required String title,
@@ -52,7 +65,6 @@ class PlanePage extends StatelessWidget {
               ),
             );
 
-            // 👉 sur mobile on limite la largeur et on centre
             return isWide
                 ? Expanded(child: cardContent)
                 : Center(
@@ -74,7 +86,8 @@ class PlanePage extends StatelessWidget {
                   title: "Schulgebäudeplan",
                   subtitle: "Zeigt den Plan des Schulgebäudes",
                   color: Colors.blue,
-                  onTap: () => Navigator.pushNamed(context, "/schoolBuildingPlan"),
+                  onTap: () =>
+                      Navigator.pushNamed(context, "/schoolBuildingPlan"),
                 ),
                 SizedBox(width: isWide ? 16 : 0, height: isWide ? 0 : 16),
                 buildCard(
@@ -82,7 +95,8 @@ class PlanePage extends StatelessWidget {
                   title: "Parkplätze für Schüler",
                   subtitle: "Freie Parkplätze in der Umgebung",
                   color: Colors.green,
-                  onTap: () => Navigator.pushNamed(context, "/parkingPlan"),
+                  onTap: () =>
+                      Navigator.pushNamed(context, "/parkingPlan"),
                 ),
               ],
             ),

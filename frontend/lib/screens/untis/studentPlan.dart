@@ -2,6 +2,11 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+/// Page displaying the weekly student timetable.
+///
+/// Loads lesson data from a local JSON file located in `assets/`
+/// and dynamically groups lessons by day.
+/// The layout adapts to screen size and theme (light/dark mode).
 class StudentplanPage extends StatefulWidget {
   const StudentplanPage({super.key});
 
@@ -16,18 +21,24 @@ class _StudentplanPageState extends State<StudentplanPage> {
   @override
   void initState() {
     super.initState();
+
+    /// Loads timetable data when the page initializes.
     loadData();
   }
 
+  /// Loads and parses the JSON timetable file from assets.
+  ///
+  /// - Extracts the list of days
+  /// - Groups lessons by day for structured UI rendering
   Future<void> loadData() async {
     final String response =
-        await rootBundle.loadString('assets/studentPlan.json');
+    await rootBundle.loadString('assets/studentPlan.json');
     final data = json.decode(response);
 
     setState(() {
       days = List<String>.from(data["days"]);
 
-      // Regrouper les cours par jour
+      /// Groups lessons by their corresponding day.
       lessonsByDay = {for (var d in days) d: []};
       for (var lesson in data["lessons"]) {
         lessonsByDay[lesson["day"]]?.add(lesson);
@@ -37,17 +48,22 @@ class _StudentplanPageState extends State<StudentplanPage> {
 
   @override
   Widget build(BuildContext context) {
-    // ✅ Détection du thème actuel
+
+    /// Detects current theme to apply dynamic styling.
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
-    // ✅ Définition des couleurs dynamiques
+    /// Dynamic colors based on active theme.
     final headerColor =
-        isDark ? Colors.blueGrey.shade700 : Colors.blue.shade100;
+    isDark ? Colors.blueGrey.shade700 : Colors.blue.shade100;
     final cardColor = isDark ? Colors.grey.shade800 : Colors.blue.shade50;
     final textColor = isDark ? Colors.white : Colors.black87;
 
     return Scaffold(
       appBar: AppBar(title: const Text("Studentplan")),
+
+      /// Responsive layout:
+      /// - Wide screens → use full available width
+      /// - Small screens → horizontal scroll enabled
       body: LayoutBuilder(
         builder: (context, constraints) {
           bool isWide = constraints.maxWidth > 600;
@@ -69,6 +85,7 @@ class _StudentplanPageState extends State<StudentplanPage> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
+                        /// Day header
                         Container(
                           padding: const EdgeInsets.all(8),
                           color: headerColor,
@@ -82,6 +99,8 @@ class _StudentplanPageState extends State<StudentplanPage> {
                             textAlign: TextAlign.center,
                           ),
                         ),
+
+                        /// Lessons for the current day
                         ...lessons.map((lesson) {
                           return Card(
                             margin: const EdgeInsets.all(6),
