@@ -1,10 +1,21 @@
 import 'package:flutter/material.dart';
 
+/// Page displaying the school building plan.
+///
+/// Shows:
+/// - A visual map of the school building
+/// - A legend with building descriptions and color indicators
+///
+/// The layout adapts responsively:
+/// - Desktop → Image and legend side by side
+/// - Mobile → Image above legend
 class SchoolBuildingPlanPage extends StatelessWidget {
   const SchoolBuildingPlanPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+
+    /// Static configuration of buildings with color and description.
     final Map<String, Map<String, dynamic>> buildings = {
       "A-Gebäude": {
         "color": Colors.red,
@@ -33,12 +44,13 @@ class SchoolBuildingPlanPage extends StatelessWidget {
       "Sporthalle": {
         "color": Colors.black,
         "desc":
-            "Turnhalle für den Sportunterricht und schulische Veranstaltungen."
+        "Turnhalle für den Sportunterricht und schulische Veranstaltungen."
       },
     };
 
     double screenWidth = MediaQuery.of(context).size.width;
 
+    /// Card displaying the building plan image.
     Widget planImage = Card(
       elevation: 4,
       clipBehavior: Clip.hardEdge,
@@ -51,6 +63,8 @@ class SchoolBuildingPlanPage extends StatelessWidget {
       ),
     );
 
+    /// Legend section listing buildings with color indicators
+    /// and detailed descriptions.
     Widget buildingList = Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -58,8 +72,8 @@ class SchoolBuildingPlanPage extends StatelessWidget {
         Text(
           "Legende & Beschreibung",
           style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                fontWeight: FontWeight.bold,
-              ),
+            fontWeight: FontWeight.bold,
+          ),
         ),
         const SizedBox(height: 12),
         ...buildings.entries.map((entry) {
@@ -86,6 +100,10 @@ class SchoolBuildingPlanPage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(title: const Text("Gebäudeplan")),
+
+      /// Responsive layout:
+      /// - > 800px → Row layout (image + legend side by side)
+      /// - ≤ 800px → Column layout (image above legend)
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Center(
@@ -93,20 +111,20 @@ class SchoolBuildingPlanPage extends StatelessWidget {
             constraints: BoxConstraints(maxWidth: screenWidth * 0.95),
             child: screenWidth > 800
                 ? Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Expanded(flex: 1, child: planImage),
-                      const SizedBox(width: 24),
-                      Expanded(flex: 1, child: buildingList),
-                    ],
-                  )
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(flex: 1, child: planImage),
+                const SizedBox(width: 24),
+                Expanded(flex: 1, child: buildingList),
+              ],
+            )
                 : Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      planImage,
-                      buildingList,
-                    ],
-                  ),
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                planImage,
+                buildingList,
+              ],
+            ),
           ),
         ),
       ),

@@ -12,9 +12,20 @@ class CustomNavigationRail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final List<NavigationRailDestination> destinationList = [
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
+    final backgroundColor = isDark ? Colors.blueGrey.shade900 : Colors.white;
+    final selectedColor = isDark ? Colors.amber : Colors.blue.shade900;
+    final unselectedColor = isDark ? Colors.white70 : Colors.black87;
+    final hoverColor = isDark
+        ? Colors.amber.withOpacity(0.2)
+        : Colors.blue.shade200.withOpacity(0.3);
+
+    final destinations = [
       const NavigationRailDestination(
-          icon: Icon(Icons.school), label: Text("Untis")),
+        icon: Icon(Icons.school),
+        label: Text("Untis"),
+      ),
       const NavigationRailDestination(
         icon: Icon(Icons.map),
         label: Text("Pläne"),
@@ -24,45 +35,31 @@ class CustomNavigationRail extends StatelessWidget {
         label: Text("Info"),
       ),
       const NavigationRailDestination(
-          icon: Icon(Icons.group), label: Text("Personen")),
+        icon: Icon(Icons.group),
+        label: Text("Personen"),
+      ),
     ];
+
     return NavigationRail(
-      minWidth: 120,
       selectedIndex: selectedIndex,
       onDestinationSelected: onDestinationSelected,
       labelType: NavigationRailLabelType.all,
-      destinations: destinationList,
-      backgroundColor: Theme
-          .of(context)
-          .bottomNavigationBarTheme
-          .backgroundColor,
-      selectedIconTheme: IconThemeData(
-        color: Theme
-            .of(context)
-            .bottomNavigationBarTheme
-            .selectedItemColor,
-        size: 28,
-      ),
-      unselectedIconTheme: IconThemeData(
-        color: Theme
-            .of(context)
-            .bottomNavigationBarTheme
-            .unselectedItemColor,
-        size: 24,
-      ),
+      backgroundColor: backgroundColor,
+      selectedIconTheme: IconThemeData(color: selectedColor, size: 28),
       selectedLabelTextStyle: TextStyle(
-        color: Theme
-            .of(context)
-            .bottomNavigationBarTheme
-            .selectedItemColor,
+        color: selectedColor,
         fontWeight: FontWeight.bold,
       ),
-      unselectedLabelTextStyle: TextStyle(
-        color: Theme
-            .of(context)
-            .bottomNavigationBarTheme
-            .unselectedItemColor,
-      ),
+      unselectedIconTheme: IconThemeData(color: unselectedColor, size: 24),
+      unselectedLabelTextStyle: TextStyle(color: unselectedColor),
+
+      // ⚡ Important: align destinations at the top
+      groupAlignment: -1.0,
+
+      destinations: destinations,
+      // optionnel: hover/indicator pour Web
+      useIndicator: true,
+      indicatorColor: hoverColor,
     );
   }
 }

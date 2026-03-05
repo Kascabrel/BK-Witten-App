@@ -5,7 +5,15 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../utils/utils.dart';
 
+/// Service responsible for checking if a newer app version
+/// is available on the remote server.
 class UpdateChecker {
+
+  /// Compares the locally installed app version with the
+  /// latest version from the update endpoint.
+  ///
+  /// If a newer version is detected, an update dialog
+  /// will be shown to the user.
   Future<void> checkForUpdate(BuildContext context) async {
     final localVersion = await getLocalVersion();
 
@@ -28,6 +36,10 @@ class UpdateChecker {
     }
   }
 
+  /// Fetches only the latest available version string
+  /// from the update endpoint.
+  ///
+  /// Returns `null` if the request fails.
   static Future<String?> getLastVersion() async {
     try {
       final response = await http.get(
@@ -46,6 +58,8 @@ class UpdateChecker {
     return null;
   }
 
+  /// Displays a dialog prompting the user to download
+  /// the latest available version of the application.
   void _showUpdateDialog(BuildContext context, String apkUrl, String version) {
     showDialog(
       context: context,
