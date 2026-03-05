@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/screens/personenPage.dart';
 import 'package:frontend/screens/plan/shoolbuildingPlan.dart';
 import 'package:frontend/screens/untis/studentPlan.dart';
 import 'package:provider/provider.dart';
@@ -161,6 +162,7 @@ class MyApp extends StatelessWidget {
         routes: {
           '/studentPlan': (context) => const StudentplanPage(),
           '/schoolBuildingPlan': (context) => const SchoolBuildingPlanPage(),
+          '/personen': (context) => const PersonenPage(),
           // '/parkingPlan': (context) => const ParkingPlanPage(),
         });
   }
