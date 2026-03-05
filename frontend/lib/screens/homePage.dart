@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/screens/personenPage.dart';
 import 'package:frontend/screens/planPage.dart';
 import 'package:frontend/screens/untis/homePageContent.dart';
 import 'package:frontend/widgets/mobil/custumAppBar.dart';
@@ -22,7 +23,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-
   /// Currently selected navigation index.
   int _selectedIndex = 0;
 
@@ -31,15 +31,12 @@ class _MyHomePageState extends State<MyHomePage> {
     const HomepageContent(),
     const PlanePage(),
     const Center(
-      child: Text("Inhalt im Entwicklungsprozes(informationen)"),
+      child: Text("Inhalt im Entwicklungsprozes (Informationen)"),
     ),
-    const Center(
-      child: Text("Inhalt im Entwicklungsprozes(personen)"),
-    )
+    const PersonenPage(),
   ];
 
-  /// Updates the selected navigation index
-  /// and rebuilds the UI.
+  /// Updates the selected navigation index and rebuilds the UI.
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
@@ -51,7 +48,6 @@ class _MyHomePageState extends State<MyHomePage> {
     super.initState();
 
     /// Triggers an update check after the first frame is rendered.
-    /// This prevents calling dialogs before the context is ready.
     WidgetsBinding.instance.addPostFrameCallback((_) {
       UpdateChecker().checkForUpdate(context);
     });
@@ -59,10 +55,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-
-    /// Responsive breakpoint:
-    /// > 800px → Desktop layout
-    /// ≤ 800px → Mobile layout
     return LayoutBuilder(
       builder: (context, constraints) {
         bool isDesktop = constraints.maxWidth > 800;
@@ -74,12 +66,6 @@ class _MyHomePageState extends State<MyHomePage> {
                 : "Berufskolleg-Witten",
             centerTitle: isDesktop,
           ),
-
-          /// Desktop layout:
-          /// NavigationRail on the left + content area.
-          ///
-          /// Mobile layout:
-          /// Only content (navigation handled by BottomNavigationBar).
           body: Row(
             children: [
               if (isDesktop)
@@ -92,16 +78,12 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
             ],
           ),
-
-          /// Bottom navigation is only shown on mobile devices.
           bottomNavigationBar: isDesktop
               ? null
               : CustomBottomNavigationBar(
             currentIndex: _selectedIndex,
             onTap: _onItemTapped,
           ),
-
-          /// Drawer accessible from the right side.
           endDrawer: const CustomDrawer(),
         );
       },
