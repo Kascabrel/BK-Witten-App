@@ -28,6 +28,19 @@ frontend/.firebase/
 frontend/.idea/
 
 # =========================
+# PYTHON (BACKEND)
+# =========================
+backend/__pycache__/
+backend/**/__pycache__/
+backend/*.pyc
+backend/**/*.pyc
+backend/.venv/
+backend/venv/
+backend/*.db
+backend/migrations/versions/
+backend/instance/
+
+# =========================
 # NODE.JS (BACKEND)
 # =========================
 backend/node_modules/

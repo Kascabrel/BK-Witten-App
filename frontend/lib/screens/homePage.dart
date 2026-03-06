@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/screens/personenPage.dart';
 import 'package:frontend/screens/planPage.dart';
+import 'package:frontend/screens/mitteilungen/mitteilungen_screen.dart';
 import 'package:frontend/screens/untis/homePageContent.dart';
 import 'package:frontend/widgets/mobil/custumAppBar.dart';
 import 'package:frontend/services/update_checker.dart';
@@ -29,10 +30,8 @@ class _MyHomePageState extends State<MyHomePage> {
   /// List of pages displayed depending on the selected navigation item.
   final List<Widget> listView = [
     const HomepageContent(),
+    const MitteilungenScreen(),
     const PlanePage(),
-    const Center(
-      child: Text("Inhalt im Entwicklungsprozes (Informationen)"),
-    ),
     const PersonenPage(),
   ];
 
