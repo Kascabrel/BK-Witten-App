@@ -23,8 +23,10 @@ def create_app() -> Flask:
     from .config import Config
     app.config.from_object(Config)
 
-    # Allow requests from the Flutter web app and local dev server
-    CORS(app, resources={r"/api/*": {"origins": "*"}})
+    # Allow requests from the Flutter web app and local dev server.
+    # Set CORS_ORIGINS in .env for production (comma-separated list of origins).
+    cors_origins = app.config.get("CORS_ORIGINS", "*")
+    CORS(app, resources={r"/api/*": {"origins": cors_origins}})
 
     # Initialise extensions
     db.init_app(app)

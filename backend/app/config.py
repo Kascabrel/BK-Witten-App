@@ -25,6 +25,10 @@ class Config:
     JWT_SECRET_KEY: str = os.getenv("JWT_SECRET_KEY", "dev-jwt-secret")
     JWT_ACCESS_TOKEN_EXPIRES: int = 3600  # 1 hour
 
+    # CORS – restrict to specific origins in production
+    # (comma-separated list in CORS_ORIGINS env variable)
+    CORS_ORIGINS: str = os.getenv("CORS_ORIGINS", "*")
+
     # WebUntis – filled in by the user via .env
     WEBUNTIS_SERVER: str = os.getenv("WEBUNTIS_SERVER", "schule.webuntis.com")
     WEBUNTIS_SCHOOL: str = os.getenv("WEBUNTIS_SCHOOL", "BK-Witten")

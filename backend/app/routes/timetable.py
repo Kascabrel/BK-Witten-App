@@ -1,6 +1,6 @@
 """Timetable routes — proxy to the WebUntis API.
 
-GET /api/timetable/week?date=YYYY-MM-DD&klasse=KLASSENNAME
+POST /api/timetable/week
     Return the timetable for a school class for the week containing the
     given date (defaults to the current week).
 
@@ -21,17 +21,17 @@ def _monday_of_week(ref: date) -> date:
     return ref - timedelta(days=ref.weekday())
 
 
-@timetable_bp.route("/week", methods=["GET"])
+@timetable_bp.route("/week", methods=["POST"])
 @jwt_required()
 def get_week_timetable():
     """Return the timetable for one calendar week.
 
-    Query parameters:
-        date     (str, optional): ISO date string ``YYYY-MM-DD``.
-                                  Defaults to today.
+    Request body (JSON):
         password (str, required): WebUntis password (re-sent to fetch live
                                   data, because the JWT only carries the
                                   username).
+        date     (str, optional): ISO date string ``YYYY-MM-DD``.
+                                  Defaults to today.
         klasse   (str, optional): School class name (e.g. ``"IT21A"``).
                                   When omitted the first class returned by
                                   WebUntis is used.
@@ -45,8 +45,15 @@ def get_week_timetable():
     """
     identity: str = get_jwt_identity()
 
+    data = request.get_json(silent=True) or {}
+    password: str = data.get("password", "")
+    klasse_name: str = data.get("klasse", "")
+    date_str: str = data.get("date", "")
+
+    if not password:
+        return jsonify({"error": "Passwort erforderlich"}), 400
+
     # Parse optional date parameter
-    date_str: str = request.args.get("date", "")
     try:
         ref_date: date = (
             datetime.strptime(date_str, "%Y-%m-%d").date()
@@ -58,13 +65,6 @@ def get_week_timetable():
 
     monday: date = _monday_of_week(ref_date)
     friday: date = monday + timedelta(days=4)
-
-    # WebUntis credentials – the password must be re-sent from the client
-    password: str = request.args.get("password", "")
-    klasse_name: str = request.args.get("klasse", "")
-
-    if not password:
-        return jsonify({"error": "Passwort erforderlich"}), 400
 
     server: str = current_app.config["WEBUNTIS_SERVER"]
     school: str = current_app.config["WEBUNTIS_SCHOOL"]

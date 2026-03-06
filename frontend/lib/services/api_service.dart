@@ -26,8 +26,10 @@ class ApiException implements Exception {
 class ApiService {
   /// Base URL of the Flask backend.
   ///
-  /// Override this for production deployments.
-  static const String baseUrl = 'http://localhost:5000/api';
+  /// Override this constant (or add a build-time environment variable via
+  /// `--dart-define=API_BASE_URL=https://...`) for production deployments.
+  static const String baseUrl =
+      String.fromEnvironment('API_BASE_URL', defaultValue: 'http://localhost:5000/api');
 
   String? _token;
 
@@ -104,19 +106,25 @@ class ApiService {
 
   /// Fetch the weekly timetable from WebUntis via the backend.
   ///
-  /// [date] defaults to today. [password] must be re-sent because the backend
-  /// re-authenticates against WebUntis to fetch live data.
+  /// [date] defaults to today (ISO format YYYY-MM-DD).
+  /// [password] must be re-sent because the backend re-authenticates against
+  /// WebUntis to fetch live data.
+  /// [klasse] is the optional school-class name (e.g. "IT21A").
   Future<Map<String, dynamic>> getWeekTimetable({
     String? date,
     required String password,
+    String? klasse,
   }) async {
-    final params = {
+    final body = <String, dynamic>{
       'password': password,
       if (date != null) 'date': date,
+      if (klasse != null) 'klasse': klasse,
     };
-    final uri = Uri.parse('$baseUrl/timetable/week')
-        .replace(queryParameters: params);
-    final response = await http.get(uri, headers: _headers);
+    final response = await http.post(
+      Uri.parse('$baseUrl/timetable/week'),
+      headers: _headers,
+      body: json.encode(body),
+    );
     return _handleResponse(response);
   }
 
