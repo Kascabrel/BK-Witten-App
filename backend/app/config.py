@@ -30,5 +30,5 @@ class Config:
     CORS_ORIGINS: str = os.getenv("CORS_ORIGINS", "*")
 
     # WebUntis – filled in by the user via .env
-    WEBUNTIS_SERVER: str = os.getenv("WEBUNTIS_SERVER", "schule.webuntis.com")
-    WEBUNTIS_SCHOOL: str = os.getenv("WEBUNTIS_SCHOOL", "BK-Witten")
+    WEBUNTIS_SERVER: str = os.getenv("WEBUNTIS_SERVER", "bk-witten.webuntis.com")
+    WEBUNTIS_SCHOOL: str = os.getenv("WEBUNTIS_SCHOOL", "bk-witten")
