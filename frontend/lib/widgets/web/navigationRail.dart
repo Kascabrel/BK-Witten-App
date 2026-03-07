@@ -27,12 +27,12 @@ class CustomNavigationRail extends StatelessWidget {
         label: Text("Untis"),
       ),
       const NavigationRailDestination(
-        icon: Icon(Icons.map),
-        label: Text("Pläne"),
+        icon: Icon(Icons.chat_bubble_outline_rounded),
+        label: Text("Mitteilungen"),
       ),
       const NavigationRailDestination(
-        icon: Icon(Icons.event),
-        label: Text("Info"),
+        icon: Icon(Icons.map),
+        label: Text("Pläne"),
       ),
       const NavigationRailDestination(
         icon: Icon(Icons.group),
@@ -57,7 +57,6 @@ class CustomNavigationRail extends StatelessWidget {
       groupAlignment: -1.0,
 
       destinations: destinations,
-      // optionnel: hover/indicator pour Web
       useIndicator: true,
       indicatorColor: hoverColor,
     );

@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/theme_provider.dart';
+import '../providers/auth_provider.dart';
 
 /// Application drawer displayed from the right side.
 ///
 /// Provides:
-/// - User information header
+/// - User information header (name from WebUntis session)
 /// - Settings and logout actions
 /// - Theme switch (light/dark mode)
 class CustomDrawer extends StatelessWidget {
@@ -13,19 +14,20 @@ class CustomDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-    /// Access the global ThemeProvider to read
-    /// and toggle the current theme mode.
     final themeProvider = Provider.of<ThemeProvider>(context);
+    final auth = Provider.of<AuthProvider>(context);
+
+    final displayName = auth.displayName ?? 'Gast';
+    final username = auth.username ?? '';
 
     return Drawer(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          const UserAccountsDrawerHeader(
-            accountName: Text("Max Mustermann"),
-            accountEmail: Text("max@example.com"),
-            currentAccountPicture: CircleAvatar(
+          UserAccountsDrawerHeader(
+            accountName: Text(displayName),
+            accountEmail: Text(username),
+            currentAccountPicture: const CircleAvatar(
               backgroundColor: Colors.white,
               child: Icon(Icons.person, size: 40, color: Colors.blue),
             ),
@@ -38,17 +40,19 @@ class CustomDrawer extends StatelessWidget {
             onTap: () => Navigator.pop(context),
           ),
 
-          /// Logout action (currently only closes drawer).
+          /// Logout — clears the JWT token and navigates to the login screen.
           ListTile(
             leading: const Icon(Icons.logout),
             title: const Text("Abmelden"),
-            onTap: () => Navigator.pop(context),
+            onTap: () async {
+              Navigator.pop(context);
+              await auth.logout();
+            },
           ),
 
           const Divider(),
 
           /// Switch to toggle between light and dark mode.
-          /// Updates the global theme via ThemeProvider.
           SwitchListTile(
             title: const Text("Dunkelmodus"),
             value: themeProvider.isDarkMode,

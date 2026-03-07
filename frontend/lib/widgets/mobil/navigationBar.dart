@@ -9,14 +9,15 @@ class CustomBottomNavigationBar extends StatelessWidget {
 
   final List<BottomNavigationBarItem> navigationItem = [
     const BottomNavigationBarItem(icon: Icon(Icons.school), label: "Untis"),
+    const BottomNavigationBarItem(
+        icon: Icon(Icons.chat_bubble_outline_rounded), label: "Mitteilungen"),
     const BottomNavigationBarItem(icon: Icon(Icons.map), label: "Pläne"),
-    const BottomNavigationBarItem(icon: Icon(Icons.event), label: "info"),
     const BottomNavigationBarItem(icon: Icon(Icons.group), label: "Personen")
   ];
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context); //
+    final theme = Theme.of(context);
 
     return BottomNavigationBar(
       items: navigationItem,
