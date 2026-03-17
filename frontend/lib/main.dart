@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/screens/personenPage.dart';
 import 'package:frontend/screens/plan/shoolbuildingPlan.dart';
+import 'package:frontend/screens/plan/parkingplan.dart';
 import 'package:frontend/screens/untis/studentPlan.dart';
 import 'package:frontend/screens/login_screen.dart';
 import 'package:frontend/screens/mitteilungen/mitteilungen_screen.dart';
@@ -156,6 +157,7 @@ class MyApp extends StatelessWidget {
           '/home': (context) => const MyHomePage(),
           '/studentPlan': (context) => const StudentplanPage(),
           '/schoolBuildingPlan': (context) => const SchoolBuildingPlanPage(),
+          '/parkingPlan': (context) => const ParkingPlanPage(),
           '/personen': (context) => const PersonenPage(),
           '/mitteilungen': (context) => const MitteilungenScreen(),
         });
