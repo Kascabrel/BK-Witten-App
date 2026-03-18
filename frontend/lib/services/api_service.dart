@@ -28,8 +28,8 @@ class ApiService {
   ///
   /// Override this constant (or add a build-time environment variable via
   /// `--dart-define=API_BASE_URL=https://...`) for production deployments.
-  static const String baseUrl =
-      String.fromEnvironment('API_BASE_URL', defaultValue: 'http://37.114.53.166:5001/api');
+  static const String baseUrl = 'http://37.114.53.166:5001/api';
+      //String.fromEnvironment('API_BASE_URL', defaultValue: 'http://37.114.53.166:5001/api');
 
   String? _token;
 
