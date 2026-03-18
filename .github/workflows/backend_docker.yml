@@ -37,7 +37,7 @@ jobs:
           ssh -i ~/.ssh/id_rsa ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << 'EOF'
           
             echo "📦 Pull image"
-            docker pull ${{ secrets.DOCKERHUB_USERNAME }}/bk-backend:latest
+            docker pull kascabrel/bk-backend:latest
 
             echo "🛑 Stop old container"
             docker stop bk-backend || true
@@ -48,7 +48,7 @@ jobs:
               --name bk-backend \
               -p 5001:5000 \
               --env-file ~/bk-backend/.env \
-              ${{ secrets.DOCKERHUB_USERNAME }}/bk-backend:latest
+              kascabrel/bk-backend:latest
 
             echo "✅ Done"
           EOF
