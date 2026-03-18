@@ -30,4 +30,4 @@ ENV PYTHONUNBUFFERED=1
 EXPOSE 5000
 
 # Start app
-CMD ["sh", "-c", "flask db upgrade && gunicorn -w 4 -b 0.0.0.0:5000 run:app"]
+CMD ["gunicorn", "-w", "4", "-b", "0.0.0.0:5000", "run:app"]
