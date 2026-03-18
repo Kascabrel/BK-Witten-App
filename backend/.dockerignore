@@ -1,0 +1,26 @@
+# Byte-compiled / cached Python files
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Local environment & secrets
+.env
+
+# SQLite database (persisted via Docker volume on the server)
+*.db
+*.sqlite3
+
+# Test artefacts
+.pytest_cache/
+htmlcov/
+.coverage
+
+# Editor / OS artefacts
+.DS_Store
+.idea/
+*.swp
